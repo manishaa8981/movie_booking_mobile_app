@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:movie_ticket_booking/view/home_view.dart';
+import 'package:movie_ticket_booking/view/login_view.dart';
+import 'package:movie_ticket_booking/view/sign_up_view.dart';
 import 'package:movie_ticket_booking/view/splash_view.dart';
 
-class Myapp extends StatelessWidget {
-  const Myapp({super.key});
-
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashView(),
+      initialRoute: '/splash',
+      routes: {
+        '/splash': (context) => SplashView(),
+        '/login': (context) => LoginView(),
+        '/signup': (context) => SignUpView(),
+        '/home': (context) => HomeView(),
+      },
     );
   }
 }

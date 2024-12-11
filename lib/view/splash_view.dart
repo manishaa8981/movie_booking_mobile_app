@@ -14,13 +14,17 @@ class _SplashViewState extends State<SplashView> {
   @override
   void initState() {
     super.initState();
-    // Timer to navigate to the next screen after 3 seconds.
+    //Timer to navigate to the next screen after 3 seconds.
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (_) => const LoginView()),
       );
     });
   }
+
+// Timer(const Duration(seconds: 3), () {
+//   Navigator.pushReplacementNamed(context, '/login');
+// });
 
   @override
   Widget build(BuildContext context) {
