@@ -126,6 +126,8 @@ class _SignUpViewState extends State<SignUpView> {
                     const Text(
                       "Already have an account? ",
                       style: TextStyle(
+                        decoration: TextDecoration.underline,
+                        decorationColor: Colors.white,
                         color: Colors.white,
                         fontSize: 18,
                       ),
@@ -137,9 +139,10 @@ class _SignUpViewState extends State<SignUpView> {
                       child: const Text(
                         'Login',
                         style: TextStyle(
+                          decoration: TextDecoration.underline,
+                          decorationColor: Colors.blue,
                           color: Colors.blue,
                           fontSize: 18,
-                          decoration: TextDecoration.underline,
                         ),
                       ),
                     )
