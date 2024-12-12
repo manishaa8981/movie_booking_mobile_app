@@ -28,8 +28,16 @@ class _LoginViewState extends State<LoginView> {
 
   void _login() {
     if (_formKey.currentState!.validate()) {
-      // Perform login action
-      Navigator.pushNamed(context, '/home');
+      // Access the text property of the controllers
+      if (_usernameController.text == "admin" &&
+          _passwordController.text == "admin123") {
+        Navigator.pushNamed(context, '/home');
+      } else {
+        // Optionally, you can show an error message if login fails
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Invalid username or password')),
+        );
+      }
     }
   }
 
