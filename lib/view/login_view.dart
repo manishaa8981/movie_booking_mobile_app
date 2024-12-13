@@ -32,10 +32,13 @@ class _LoginViewState extends State<LoginView> {
       if (_usernameController.text == "admin" &&
           _passwordController.text == "admin123") {
         Navigator.pushNamed(context, '/home');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Login successful!')),
+        );
       } else {
         // Optionally, you can show an error message if login fails
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Invalid username or password')),
+          const SnackBar(content: Text('Invalid username or password')),
         );
       }
     }
@@ -173,22 +176,25 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       TextButton(
                         onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              title: const Text("Forgot Password"),
-                              content: const Text(
-                                  "Password recovery functionality is coming soon."),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.pop(context);
-                                  },
-                                  child: const Text("OK"),
-                                ),
-                              ],
-                            ),
-                          );
+                          Navigator.pushNamed(context, '/forgotpassword');
+
+
+                          // showDialog(
+                          //   context: context,
+                          //   builder: (context) => AlertDialog(
+                          //     title: const Text("Forgot Password"),
+                          //     content: const Text(
+                          //         "Password recovery functionality is coming soon."),
+                          //     actions: [
+                          //       TextButton(
+                          //         onPressed: () {
+                          //           Navigator.pop(context);
+                          //         },
+                          //         child: const Text("OK"),
+                          //       ),
+                          //     ],
+                          //   ),
+                          // );
                         },
                         child: const Text(
                           'Forgot Password?',

@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:movie_ticket_booking/view/login_view.dart';
+import 'package:movie_ticket_booking/view/onboarding_view.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
@@ -17,7 +17,7 @@ class _SplashViewState extends State<SplashView> {
     //Timer to navigate to the next screen after 3 seconds.
     Timer(const Duration(seconds: 3), () {
       Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const LoginView()),
+        MaterialPageRoute(builder: (_) => const OnboardingView()),
       );
     });
   }
