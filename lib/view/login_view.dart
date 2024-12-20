@@ -33,7 +33,10 @@ class _LoginViewState extends State<LoginView> {
           _passwordController.text == "admin123") {
         Navigator.pushNamed(context, '/home');
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Login successful!')),
+          const SnackBar(
+            content: Text('Login successful!'),
+            backgroundColor: Colors.grey,
+          ),
         );
       } else {
         // Optionally, you can show an error message if login fails
@@ -177,7 +180,6 @@ class _LoginViewState extends State<LoginView> {
                       TextButton(
                         onPressed: () {
                           Navigator.pushNamed(context, '/forgotpassword');
-
 
                           // showDialog(
                           //   context: context,

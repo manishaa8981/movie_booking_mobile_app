@@ -10,6 +10,6 @@ class Movie extends StatefulWidget {
 class _MovieState extends State<Movie> {
   @override
   Widget build(BuildContext context) {
-    return Center();
+    return const Center();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:movie_ticket_booking/core/app_theme/app_theme.dart';
 import 'package:movie_ticket_booking/view/forgot_password_view.dart';
 import 'package:movie_ticket_booking/view/home_view.dart';
 import 'package:movie_ticket_booking/view/login_view.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
         '/home': (context) => const HomeView(),
         '/forgotpassword': (context) => const ForgotPasswordView(),
       },
+      theme: getThemeData(),
     );
   }
 }

@@ -10,6 +10,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    return Center();
+    return Column(
+      children: [ElevatedButton(onPressed: () {}, child: const Text('Save'))],
+    );
   }
 }
