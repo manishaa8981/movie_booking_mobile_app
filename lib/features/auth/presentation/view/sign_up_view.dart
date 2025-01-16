@@ -104,6 +104,7 @@ class _SignUpViewState extends State<SignUpView> {
                     height: 60,
                     width: double.infinity,
                     child: ElevatedButton(
+<<<<<<< HEAD:lib/features/auth/presentation/view/sign_up_view.dart
                       onPressed: () {
                         context.read<RegisterBloc>().add(
                               NavigateLoginScreenEvent(
@@ -112,6 +113,9 @@ class _SignUpViewState extends State<SignUpView> {
                               ),
                             );
                       },
+=======
+                      onPressed: _signUp,
+>>>>>>> auth:lib/view/sign_up_view.dart
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
                         shape: RoundedRectangleBorder(

@@ -32,6 +32,7 @@ class _LoginViewState extends State<LoginView> {
     super.dispose();
   }
 
+<<<<<<< HEAD:lib/features/auth/presentation/view/login_view.dart
   // void _login() {
   //   if (_formKey.currentState!.validate()) {
   //     // Access the text property of the controllers
@@ -52,6 +53,22 @@ class _LoginViewState extends State<LoginView> {
   //     }
   //   }
   // }
+=======
+  void _login() {
+    if (_formKey.currentState!.validate()) {
+      // Access the text property of the controllers
+      if (_usernameController.text == "admin" &&
+          _passwordController.text == "admin123") {
+        Navigator.pushNamed(context, '/home');
+      } else {
+        // Optionally, you can show an error message if login fails
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Invalid username or password')),
+        );
+      }
+    }
+  }
+>>>>>>> auth:lib/view/login_view.dart
 
   String? _validateUsername(String? value) {
     if (value!.contains('@')) {
