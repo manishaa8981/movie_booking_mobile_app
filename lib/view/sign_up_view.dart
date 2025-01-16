@@ -101,6 +101,13 @@ class _SignUpViewState extends State<SignUpView> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: _signUp,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        elevation: 5,
+                      ),
                       child: const Text(
                         'Sign Up',
                         style: TextStyle(
@@ -109,13 +116,6 @@ class _SignUpViewState extends State<SignUpView> {
                           fontFamily: "Poppins",
                           fontWeight: FontWeight.bold,
                         ),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        elevation: 5,
                       ),
                     ),
                   ),

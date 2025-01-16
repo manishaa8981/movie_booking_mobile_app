@@ -35,7 +35,7 @@ class _LoginViewState extends State<LoginView> {
       } else {
         // Optionally, you can show an error message if login fails
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Invalid username or password')),
+          const SnackBar(content: Text('Invalid username or password')),
         );
       }
     }
