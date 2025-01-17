@@ -11,27 +11,63 @@ class SignUpView extends StatefulWidget {
 }
 
 class _SignUpViewState extends State<SignUpView> {
-  final _formKey = GlobalKey<FormState>(); // Form key for validation
+  final _formKey = GlobalKey<FormState>();
+  final _fullnameController = TextEditingController();
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
-  final _phonenoController = TextEditingController();
+  final _contactNoController = TextEditingController();
   final _passwordController = TextEditingController();
 
   @override
   void dispose() {
+    _fullnameController.dispose();
     _usernameController.dispose();
     _emailController.dispose();
-    _phonenoController.dispose();
+    _contactNoController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  // void _signUp() {
-  //   if (_formKey.currentState!.validate()) {
-  //     // Navigate to LoginView after successful signup
-  //     Navigator.pushNamed(context, '/login');
-  //   }
-  // }
+  String? _validateFullname(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Fullname is required';
+    }
+    return null;
+  }
+
+  String? _validateUsername(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Username is required';
+    }
+    return null;
+  }
+
+  String? _validateEmail(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Email is required';
+    } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
+      return 'Enter a valid email address';
+    }
+    return null;
+  }
+
+  String? _validateContact(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Phone number is required';
+    } else if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+      return 'Enter a valid 10-digit phone number';
+    }
+    return null;
+  }
+
+  String? _validatePassword(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Password is required';
+    } else if (value.length < 6) {
+      return 'Password must be at least 6 characters long';
+    }
+    return null;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,30 +108,30 @@ class _SignUpViewState extends State<SignUpView> {
                   ),
                 ),
                 _buildTextField(
+                  controller: _fullnameController,
+                  hintText: 'Enter your Fullname',
+                  validator: _validateFullname,
+                ),
+                _buildTextField(
                   controller: _usernameController,
                   hintText: 'Enter your Username',
-                  validator: (value) =>
-                      value!.isEmpty ? 'Username is required' : null,
+                  validator: _validateUsername,
                 ),
                 _buildTextField(
                   controller: _emailController,
                   hintText: 'Enter your Email',
-                  validator: (value) => value!.contains('@')
-                      ? null
-                      : 'Enter a valid email address',
+                  validator: _validateEmail,
                 ),
                 _buildTextField(
-                  controller: _phonenoController,
+                  controller: _contactNoController,
                   hintText: 'Enter your Phone No.',
-                  validator: (value) =>
-                      value!.length == 10 ? null : 'Enter a valid phone number',
+                  validator: _validateContact,
                 ),
                 _buildTextField(
                   controller: _passwordController,
                   hintText: 'Enter your Password',
                   obscureText: true,
-                  validator: (value) =>
-                      value!.length >= 6 ? null : 'Password too short',
+                  validator: _validatePassword,
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -104,18 +140,20 @@ class _SignUpViewState extends State<SignUpView> {
                     height: 60,
                     width: double.infinity,
                     child: ElevatedButton(
-<<<<<<< HEAD:lib/features/auth/presentation/view/sign_up_view.dart
                       onPressed: () {
-                        context.read<RegisterBloc>().add(
-                              NavigateLoginScreenEvent(
-                                destination: const LoginView(),
-                                context: context,
-                              ),
-                            );
+                        if (_formKey.currentState!.validate()) {
+                          context.read<RegisterBloc>().add(
+                                RegisterUserEvent(
+                                  context: context,
+                                  fullName: _fullnameController.text,
+                                  username: _usernameController.text,
+                                  email: _emailController.text,
+                                  contactNo: _contactNoController.text,
+                                  password: _passwordController.text,
+                                ),
+                              );
+                        }
                       },
-=======
-                      onPressed: _signUp,
->>>>>>> auth:lib/view/sign_up_view.dart
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.blue,
                         shape: RoundedRectangleBorder(
@@ -149,12 +187,11 @@ class _SignUpViewState extends State<SignUpView> {
                     ),
                     TextButton(
                       onPressed: () {
-                        context.read<RegisterBloc>().add(
-                              NavigateLoginScreenEvent(
-                                destination: const LoginView(),
-                                context: context,
-                              ),
-                            );
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const LoginView()),
+                        );
                       },
                       child: const Text(
                         'Login',

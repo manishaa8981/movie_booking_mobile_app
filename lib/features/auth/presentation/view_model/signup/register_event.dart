@@ -13,22 +13,24 @@ class NavigateLoginScreenEvent extends RegisterEvent {
 
   const NavigateLoginScreenEvent({
     required this.context,
-    required this.destination, 
-    
+    required this.destination,
   });
 }
 
 class RegisterUserEvent extends RegisterEvent {
-  final String full_name;
+  final BuildContext context;
+
+  final String fullName;
   final String email;
-  final String contact_no;
+  final String contactNo;
   final String username;
   final String password;
 
   const RegisterUserEvent({
-    required this.full_name,
+    required this.context,
+    required this.fullName,
     required this.email,
-    required this.contact_no,
+    required this.contactNo,
     required this.username,
     required this.password,
   });

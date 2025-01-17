@@ -32,47 +32,9 @@ class _LoginViewState extends State<LoginView> {
     super.dispose();
   }
 
-<<<<<<< HEAD:lib/features/auth/presentation/view/login_view.dart
-  // void _login() {
-  //   if (_formKey.currentState!.validate()) {
-  //     // Access the text property of the controllers
-  //     if (_usernameController.text == "admin" &&
-  //         _passwordController.text == "admin123") {
-  //       Navigator.pushNamed(context, '/home');
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(
-  //           content: Text('Login successful!'),
-  //           backgroundColor: Colors.grey,
-  //         ),
-  //       );
-  //     } else {
-  //       // Optionally, you can show an error message if login fails
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(content: Text('Invalid username or password')),
-  //       );
-  //     }
-  //   }
-  // }
-=======
-  void _login() {
-    if (_formKey.currentState!.validate()) {
-      // Access the text property of the controllers
-      if (_usernameController.text == "admin" &&
-          _passwordController.text == "admin123") {
-        Navigator.pushNamed(context, '/home');
-      } else {
-        // Optionally, you can show an error message if login fails
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Invalid username or password')),
-        );
-      }
-    }
-  }
->>>>>>> auth:lib/view/login_view.dart
-
   String? _validateUsername(String? value) {
-    if (value!.contains('@')) {
-      return 'Enter a valid email address';
+    if (value == null || value.isEmpty) {
+      return 'Username is required';
     }
     return null;
   }
@@ -128,7 +90,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                   const SizedBox(height: 40),
                   const Text(
-                    'Email',
+                    'Username',
                     style: TextStyle(
                       color: Colors.white,
                       fontFamily: "Poppins",
@@ -143,7 +105,7 @@ class _LoginViewState extends State<LoginView> {
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
-                      hintText: 'Enter your email',
+                      hintText: 'Enter your username',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide.none,
@@ -306,3 +268,25 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 }
+
+
+  // void _login() {
+  //   if (_formKey.currentState!.validate()) {
+  //     // Access the text property of the controllers
+  //     if (_usernameController.text == "admin" &&
+  //         _passwordController.text == "admin123") {
+  //       Navigator.pushNamed(context, '/home');
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(
+  //           content: Text('Login successful!'),
+  //           backgroundColor: Colors.grey,
+  //         ),
+  //       );
+  //     } else {
+  //       // Optionally, you can show an error message if login fails
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         const SnackBar(content: Text('Invalid username or password')),
+  //       );
+  //     }
+  //   }
+  // }
