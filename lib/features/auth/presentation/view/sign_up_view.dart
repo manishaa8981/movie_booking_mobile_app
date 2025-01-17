@@ -83,7 +83,7 @@ class _SignUpViewState extends State<SignUpView> {
         height: double.infinity,
         width: double.infinity,
         decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 19, 33, 87),
+          color: Color.fromARGB(255, 3, 21, 87),
           // gradient: LinearGradient(
           //   begin: Alignment.topLeft,
           //   end: Alignment.bottomRight,
