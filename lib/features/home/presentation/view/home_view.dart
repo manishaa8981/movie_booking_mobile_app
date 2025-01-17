@@ -31,18 +31,19 @@ class _HomeViewState extends State<HomeView> {
       body: lstBottomScreen[_selectedIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          gradient: const LinearGradient(
-            colors: [
-              Color.fromARGB(200, 19, 19, 19), // Dark Gradient
-              Color.fromARGB(200, 35, 4, 74), // Purple Gradient
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(20),
-            topRight: Radius.circular(20),
-          ),
+          color: Colors.orange[700],
+          // gradient: const LinearGradient(
+          //   colors: [
+          //     Color.fromARGB(200, 19, 19, 19), // Dark Gradient
+          //     Color.fromARGB(200, 35, 4, 74), // Purple Gradient
+          //   ],
+          //   begin: Alignment.topCenter,
+          //   end: Alignment.bottomCenter,
+          // ),
+          // borderRadius: const BorderRadius.only(
+          //   topLeft: Radius.circular(20),
+          //   topRight: Radius.circular(20),
+          // ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.3),
@@ -60,7 +61,8 @@ class _HomeViewState extends State<HomeView> {
           child: BottomNavigationBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            selectedItemColor: Colors.purpleAccent,
+            selectedItemColor:  Color.fromARGB(255, 19, 33, 87),
+
             unselectedItemColor: Colors.white70,
             selectedFontSize: 14,
             unselectedFontSize: 12,

@@ -9,5 +9,9 @@ mySnackBar({
     content: Text(message),
     duration: const Duration(seconds: 3),
     behavior: SnackBarBehavior.floating,
+      margin: const EdgeInsets.all(16), // Adds margin to prevent overlap
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(8),
+      )
   ));
 }

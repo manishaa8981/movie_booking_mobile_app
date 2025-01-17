@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_ticket_booking/core/common/snackbar/my_snackbar.dart';
 import 'package:movie_ticket_booking/features/auth/presentation/view/sign_up_view.dart';
 
 import '../../../home/presentation/view/home_view.dart';
@@ -16,7 +17,7 @@ class _LoginViewState extends State<LoginView> {
   final _formKey = GlobalKey<FormState>();
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
-
+  bool _isPasswordVisible = false;
   final FocusNode _usernameFocusNode = FocusNode();
   final FocusNode _passwordFocusNode = FocusNode();
 
@@ -60,14 +61,17 @@ class _LoginViewState extends State<LoginView> {
         height: double.infinity,
         width: double.infinity,
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF2E1371),
-              Color(0xFF130B2B),
-            ],
-          ),
+          color: Color.fromARGB(255, 19, 33, 87),// Valid shade
+
+
+          // gradient: LinearGradient(
+          //   begin: Alignment.topLeft,
+          //   end: Alignment.bottomRight,
+          //   colors: [
+          //     Color(0xFF2E1371),
+          //     Color(0xFF130B2B),
+          //   ],
+          // ),
         ),
         child: SingleChildScrollView(
           child: Padding(
@@ -88,7 +92,18 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height:15),
+                  const Center(
+                    child: Text(
+                      'Please sign in to continue booking your favorite movies.',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                        fontFamily: 'Poppins',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
                   const Text(
                     'Username',
                     style: TextStyle(
@@ -103,6 +118,7 @@ class _LoginViewState extends State<LoginView> {
                     focusNode: _usernameFocusNode,
                     controller: _usernameController,
                     decoration: InputDecoration(
+                      prefixIcon: Icon(Icons.person),
                       filled: true,
                       fillColor: Colors.white,
                       hintText: 'Enter your username',
@@ -127,7 +143,7 @@ class _LoginViewState extends State<LoginView> {
                   TextFormField(
                     focusNode: _passwordFocusNode,
                     controller: _passwordController,
-                    obscureText: true,
+                    obscureText: !_isPasswordVisible, // Toggles visibility
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: Colors.white,
@@ -136,9 +152,22 @@ class _LoginViewState extends State<LoginView> {
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide.none,
                       ),
+                      prefixIcon: const Icon(Icons.lock_outline),
+                      suffixIcon: IconButton(
+                        icon: Icon(
+                          _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                          color: Colors.black,
+                        ),
+                        onPressed: () {
+                          setState(() {
+                            _isPasswordVisible = !_isPasswordVisible; // Toggle visibility
+                          });
+                        },
+                      ),
                     ),
                     validator: _validatePassword,
                   ),
+
                   _gap,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -206,10 +235,11 @@ class _LoginViewState extends State<LoginView> {
                                   context: context,
                                 ),
                               );
+                          mySnackBar(context: context, message: "Login Successful!", color: Colors.green);
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Colors.orange[700],
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
@@ -223,7 +253,9 @@ class _LoginViewState extends State<LoginView> {
                           fontFamily: "Poppins",
                           fontWeight: FontWeight.bold,
                         ),
+
                       ),
+                      
                     ),
                   ),
                   const SizedBox(height: 20),

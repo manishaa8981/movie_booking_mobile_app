@@ -78,8 +78,9 @@ class OnboardingView extends StatelessWidget {
                     decoration: const BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
+                          Colors.transparent,
                           Color.fromARGB(170, 19, 19, 19),
-                          Color.fromARGB(200, 35, 4, 74),
+                          Color.fromARGB(200, 25, 23, 23),
                         ],
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,

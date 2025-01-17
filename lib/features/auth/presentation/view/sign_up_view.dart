@@ -17,6 +17,7 @@ class _SignUpViewState extends State<SignUpView> {
   final _emailController = TextEditingController();
   final _contactNoController = TextEditingController();
   final _passwordController = TextEditingController();
+  bool _isPasswordVisible = false;
 
   @override
   void dispose() {
@@ -82,11 +83,12 @@ class _SignUpViewState extends State<SignUpView> {
         height: double.infinity,
         width: double.infinity,
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [Color(0xFF2E1371), Color(0xFF130B2B)],
-          ),
+          color: Color.fromARGB(255, 19, 33, 87),
+          // gradient: LinearGradient(
+          //   begin: Alignment.topLeft,
+          //   end: Alignment.bottomRight,
+          //   colors: [Color(0xFF2E1371), Color(0xFF130B2B)],
+          // ),
         ),
         child: SingleChildScrollView(
           child: Form(
@@ -98,7 +100,7 @@ class _SignUpViewState extends State<SignUpView> {
                   padding: EdgeInsets.only(top: 100),
                   child: Center(
                     child: Text(
-                      'Create an Account',
+                      'Create an Account 🎥',
                       style: TextStyle(
                         fontSize: 30,
                         color: Colors.white,
@@ -107,31 +109,60 @@ class _SignUpViewState extends State<SignUpView> {
                     ),
                   ),
                 ),
+                const SizedBox(height:15),
+                const Center(
+                  child: Text(
+                    '   Sign up to start booking your favorite movies.',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.grey,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                ),const SizedBox(height:20),
                 _buildTextField(
+                  prefixIcon: const Icon(Icons.person),
                   controller: _fullnameController,
                   hintText: 'Enter your Fullname',
                   validator: _validateFullname,
                 ),
                 _buildTextField(
+                  prefixIcon: const Icon(Icons.person),
                   controller: _usernameController,
                   hintText: 'Enter your Username',
                   validator: _validateUsername,
                 ),
                 _buildTextField(
+                  prefixIcon: const Icon(Icons.email),
                   controller: _emailController,
                   hintText: 'Enter your Email',
                   validator: _validateEmail,
                 ),
                 _buildTextField(
+                  prefixIcon: const Icon(Icons.phone),
                   controller: _contactNoController,
                   hintText: 'Enter your Phone No.',
                   validator: _validateContact,
                 ),
                 _buildTextField(
+                  prefixIcon: const Icon(Icons.lock_outline),
                   controller: _passwordController,
                   hintText: 'Enter your Password',
-                  obscureText: true,
                   validator: _validatePassword,
+                  obscureText: !_isPasswordVisible,
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      _isPasswordVisible
+                          ? Icons.visibility
+                          : Icons.visibility_off,
+                      color: Colors.black,
+                    ),
+                    onPressed: () {
+                      setState(() {
+                        _isPasswordVisible = !_isPasswordVisible;
+                      });
+                    },
+                  ),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -155,7 +186,7 @@ class _SignUpViewState extends State<SignUpView> {
                         }
                       },
                       style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Colors.orange[700],
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10.0),
                         ),
@@ -218,6 +249,9 @@ class _SignUpViewState extends State<SignUpView> {
     required String hintText,
     required String? Function(String?) validator,
     bool obscureText = false,
+    Widget? prefixIcon,
+    Widget? suffixIcon,
+
   }) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -225,6 +259,8 @@ class _SignUpViewState extends State<SignUpView> {
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(
+          suffixIcon : suffixIcon,
+          prefixIcon: prefixIcon,
           filled: true,
           fillColor: Colors.white,
           hintText: hintText,

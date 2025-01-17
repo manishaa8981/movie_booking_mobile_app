@@ -28,7 +28,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         event.context,
         MaterialPageRoute(
           builder: (context) => BlocProvider.value(
-              value: _registerBloc, child: event.destination),
+            value: _registerBloc,
+            child: event.destination,
+          ),
         ),
       );
     });
@@ -45,8 +47,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       );
     });
 
-        on<LoginStudentEvent>(
-      (event, emit) async {
+    on<LoginStudentEvent>(
+          (event, emit) async {
         emit(state.copyWith(isLoading: true));
         final result = await _loginUseCase(
           LoginParams(
@@ -56,7 +58,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         );
 
         result.fold(
-          (failure) {
+              (l) {
             emit(state.copyWith(isLoading: false, isSuccess: false));
             mySnackBar(
               context: event.context,
@@ -64,14 +66,24 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               color: Colors.red,
             );
           },
-          (token) {
+              (token) {
             emit(state.copyWith(isLoading: false, isSuccess: true));
+
+            // Show success snack bar
+            mySnackBar(
+              context: event.context,
+              message: "Login Successful!",
+              color: Colors.green,
+            );
+
             add(
               NavigateHomeScreenEvent(
                 context: event.context,
-                destination: HomeView(),
+                destination: const HomeView(),
               ),
             );
+
+            // Optionally, store the token in HomeCubit
             //_homeCubit.setToken(token);
           },
         );

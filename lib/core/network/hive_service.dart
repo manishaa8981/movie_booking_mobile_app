@@ -9,6 +9,10 @@ class HiveService {
     var path = '${directory.path}movie_ticket_booking.db';
 
     Hive.init(path);
+
+    //Register Adapter
+    Hive.registerAdapter(AuthHiveModelAdapter());
+
   }
 
   // Auth Queries

@@ -31,14 +31,15 @@ class _SplashViewState extends State<SplashView> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF2E1371), // Top left color
-              Color(0xFF130B2B), // Bottom right color
-            ],
-          ),
+          color: Colors.black87,
+          // gradient: LinearGradient(
+          //   begin: Alignment.topLeft,
+          //   end: Alignment.bottomRight,
+          //   colors: [
+          //     Color(0xFF2E1371), // Top left color
+          //     Color(0xFF130B2B), // Bottom right color
+          //   ],
+          // ),
         ),
         child: Center(
           child: Column(
