@@ -61,7 +61,7 @@ class _LoginViewState extends State<LoginView> {
         height: double.infinity,
         width: double.infinity,
         decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 3, 21, 87),
+          color: Color(0xFF111827),
 
 
           // gradient: LinearGradient(

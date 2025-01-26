@@ -31,7 +31,7 @@ class _HomeViewState extends State<HomeView> {
       body: lstBottomScreen[_selectedIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Colors.orange[700],
+          color: Color.fromARGB(255, 3, 21, 87),
           // gradient: const LinearGradient(
           //   colors: [
           //     Color.fromARGB(200, 19, 19, 19), // Dark Gradient
@@ -61,9 +61,8 @@ class _HomeViewState extends State<HomeView> {
           child: BottomNavigationBar(
             backgroundColor: Colors.transparent,
             elevation: 0,
-            selectedItemColor:  Color.fromARGB(255, 19, 33, 87),
-
-            unselectedItemColor: Colors.white70,
+            selectedItemColor:Colors.white,
+            unselectedItemColor: Colors.white54,
             selectedFontSize: 14,
             unselectedFontSize: 12,
             currentIndex: _selectedIndex,
