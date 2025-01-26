@@ -31,7 +31,7 @@ class _SplashViewState extends State<SplashView> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          color: Color.fromARGB(255, 3, 21, 87),
+          color: Color(0xFF111827),
           // color: Color.fromARGB(255, 19, 33, 87),// gradient: LinearGradient(
           //   begin: Alignment.topLeft,
           //   end: Alignment.bottomRight,
