@@ -61,7 +61,6 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     final result = await _uploadImageUsecase.call(
       UploadImageParams(file: event.file),
     );
-
     result.fold((l) => emit(state.copyWith(isLoading: false, isSuccess: false)),
         (r) {
       emit(state.copyWith(isLoading: false, isSuccess: true, imageName: r));
