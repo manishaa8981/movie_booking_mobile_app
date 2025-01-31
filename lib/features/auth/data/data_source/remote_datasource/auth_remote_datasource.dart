@@ -34,7 +34,6 @@ class AuthRemoteDatasource implements IAuthDataSource {
 
   @override
   Future<AuthEntity> getCurrentUser() {
-    // TODO: implement getCurrentUser
     throw UnimplementedError();
   }
 
