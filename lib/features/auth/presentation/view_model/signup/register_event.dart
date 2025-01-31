@@ -19,19 +19,25 @@ class NavigateLoginScreenEvent extends RegisterEvent {
 
 class RegisterUserEvent extends RegisterEvent {
   final BuildContext context;
-
-  final String fullName;
   final String email;
   final String contactNo;
   final String username;
   final String password;
+  final String? image;
 
   const RegisterUserEvent({
     required this.context,
-    required this.fullName,
     required this.email,
     required this.contactNo,
     required this.username,
     required this.password,
+    this.image,
+  });
+}
+
+class LoadImage extends RegisterEvent {
+  final File file;
+  const LoadImage({
+    required this.file,
   });
 }
