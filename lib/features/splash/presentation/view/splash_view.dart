@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:movie_ticket_booking/features/auth/presentation/view/onboarding_view.dart';
+import 'package:movie_ticket_booking/features/splash/presentation/view/onboarding_view.dart';
 
 class SplashView extends StatefulWidget {
   const SplashView({super.key});
