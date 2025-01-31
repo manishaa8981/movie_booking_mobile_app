@@ -47,10 +47,10 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       );
     });
 
-    on<LoginStudentEvent>(
-          (event, emit) async {
+    on<LoginUserEvent>(
+      (event, emit) async {
         emit(state.copyWith(isLoading: true));
-        final result = await _loginUseCase(
+        final result = await _loginUseCase.call(
           LoginParams(
             username: event.username,
             password: event.password,
@@ -58,7 +58,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         );
 
         result.fold(
-              (l) {
+          (l) {
             emit(state.copyWith(isLoading: false, isSuccess: false));
             mySnackBar(
               context: event.context,
@@ -66,7 +66,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
               color: Colors.red,
             );
           },
-              (token) {
+          (token) {
             emit(state.copyWith(isLoading: false, isSuccess: true));
 
             // Show success snack bar

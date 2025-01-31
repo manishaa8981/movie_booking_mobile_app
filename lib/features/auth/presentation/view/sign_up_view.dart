@@ -1,7 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:movie_ticket_booking/features/auth/presentation/view/login_view.dart';
 import 'package:movie_ticket_booking/features/auth/presentation/view_model/signup/register_bloc.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({super.key});
@@ -12,28 +16,47 @@ class SignUpView extends StatefulWidget {
 
 class _SignUpViewState extends State<SignUpView> {
   final _formKey = GlobalKey<FormState>();
-  final _fullnameController = TextEditingController();
   final _usernameController = TextEditingController();
   final _emailController = TextEditingController();
   final _contactNoController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
 
+// we are taking permission from user to open camera or not
+  Future<void> checkCameraPermission() async {
+    if (await Permission.camera.request().isRestricted ||
+        await Permission.camera.request().isDenied) {
+      await Permission.camera.request();
+    }
+  }
+
+  File? _img;
+  Future _browseImage(ImageSource imageSource) async {
+    try {
+      final image = await ImagePicker().pickImage(source: imageSource);
+      if (image != null) {
+        setState(() {
+          _img = File(image.path);
+          // send iamge to server
+          context.read<RegisterBloc>().add(
+                LoadImage(file: _img!),
+              );
+        });
+      } else {
+        return;
+      }
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
   @override
   void dispose() {
-    _fullnameController.dispose();
     _usernameController.dispose();
     _emailController.dispose();
     _contactNoController.dispose();
     _passwordController.dispose();
     super.dispose();
-  }
-
-  String? _validateFullname(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Fullname is required';
-    }
-    return null;
   }
 
   String? _validateUsername(String? value) {
@@ -98,7 +121,7 @@ class _SignUpViewState extends State<SignUpView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Padding(
-                  padding: EdgeInsets.only(top: 100),
+                  padding: EdgeInsets.only(top: 70),
                   child: Center(
                     child: Text(
                       'Create an Account 🎥',
@@ -110,7 +133,7 @@ class _SignUpViewState extends State<SignUpView> {
                     ),
                   ),
                 ),
-                const SizedBox(height:15),
+                const SizedBox(height: 5),
                 const Center(
                   child: Text(
                     '   Sign up to start booking your favorite movies.',
@@ -120,12 +143,61 @@ class _SignUpViewState extends State<SignUpView> {
                       fontFamily: 'Poppins',
                     ),
                   ),
-                ),const SizedBox(height:20),
-                _buildTextField(
-                  prefixIcon: const Icon(Icons.person),
-                  controller: _fullnameController,
-                  hintText: 'Enter your Fullname',
-                  validator: _validateFullname,
+                ),
+                const SizedBox(height: 5),
+                InkWell(
+                  onTap: () {
+                    showModalBottomSheet(
+                      backgroundColor: Colors.grey[300],
+                      context: context,
+                      isScrollControlled: true,
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20),
+                        ),
+                      ),
+                      builder: (context) => Padding(
+                        padding: const EdgeInsets.all(20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                checkCameraPermission();
+                                _browseImage(ImageSource.camera);
+                                Navigator.pop(context);
+                                // upload image it is not null
+                              },
+                              icon: const Icon(Icons.camera),
+                              label: const Text('Camera'),
+                            ),
+                            ElevatedButton.icon(
+                              onPressed: () {
+                                _browseImage(ImageSource.gallery);
+                                Navigator.pop(context);
+                                _browseImage(ImageSource.camera);
+                              },
+                              icon: const Icon(Icons.image),
+                              label: const Text('Gallery'),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
+                  child: Center(
+                    child: SizedBox(
+                      height: 100,
+                      width: 100,
+                      child: CircleAvatar(
+                        radius: 50,
+                        backgroundImage: _img != null
+                            ? FileImage(_img!)
+                            : const AssetImage('assets/images/image.png')
+                                as ImageProvider,
+                      ),
+                    ),
+                  ),
                 ),
                 _buildTextField(
                   prefixIcon: const Icon(Icons.person),
@@ -174,14 +246,17 @@ class _SignUpViewState extends State<SignUpView> {
                     child: ElevatedButton(
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
+                          final registerState =
+                              context.read<RegisterBloc>().state;
+                          final imageName = registerState.imageName;
                           context.read<RegisterBloc>().add(
                                 RegisterUserEvent(
                                   context: context,
-                                  fullName: _fullnameController.text,
                                   username: _usernameController.text,
                                   email: _emailController.text,
                                   contactNo: _contactNoController.text,
                                   password: _passwordController.text,
+                                  image: imageName,
                                 ),
                               );
                         }
@@ -252,7 +327,6 @@ class _SignUpViewState extends State<SignUpView> {
     bool obscureText = false,
     Widget? prefixIcon,
     Widget? suffixIcon,
-
   }) {
     return Padding(
       padding: const EdgeInsets.all(10.0),
@@ -260,7 +334,7 @@ class _SignUpViewState extends State<SignUpView> {
         controller: controller,
         obscureText: obscureText,
         decoration: InputDecoration(
-          suffixIcon : suffixIcon,
+          suffixIcon: suffixIcon,
           prefixIcon: prefixIcon,
           filled: true,
           fillColor: Colors.white,
