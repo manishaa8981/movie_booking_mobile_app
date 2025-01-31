@@ -11,11 +11,9 @@ class GetAllAuthDTO{
   GetAllAuthDTO({
     required this.succes,
     required this.token,
-
   });
 
-  Map<String, dynamic> toJson() => _$GetAllAuthDTOToJson(this); // suru ma error aauxa aauna dena .g banaye [pxi janxa
-
+  Map<String, dynamic> toJson() => _$GetAllAuthDTOToJson(this); // suru ma error aauxa aauna dena .g banaye  pxi janxa
   factory GetAllAuthDTO.fromJson(Map<String , dynamic> json) => _$GetAllAuthDTOFromJson(json);
 
 }
