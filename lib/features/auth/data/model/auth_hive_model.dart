@@ -48,7 +48,6 @@ class AuthHiveModel extends Equatable {
   AuthEntity toEntity() {
     return AuthEntity(
         authId: authId,
-        fullName: '',
         email: email,
         contactNo: '',
         image: null,
