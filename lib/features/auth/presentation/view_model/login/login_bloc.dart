@@ -56,7 +56,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             password: event.password,
           ),
         );
-
         result.fold(
           (l) {
             emit(state.copyWith(isLoading: false, isSuccess: false));
@@ -68,8 +67,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
           },
           (token) {
             emit(state.copyWith(isLoading: false, isSuccess: true));
-
-            // Show success snack bar
             mySnackBar(
               context: event.context,
               message: "Login Successful!",
