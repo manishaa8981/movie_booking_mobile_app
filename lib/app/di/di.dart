@@ -53,8 +53,8 @@ void _initOnboardingScreenDependencies() {
 /// ====================  Register ===================
 
 _initRegisterDependencies() {
+  
   //DataSource
-
   getIt.registerLazySingleton<AuthLocalDataSource>(
     () => AuthLocalDataSource(getIt<HiveService>()),
   );
@@ -64,7 +64,6 @@ _initRegisterDependencies() {
   );
 
   //Repository
-
   getIt.registerLazySingleton(
     () => AuthLocalRepository(getIt<AuthLocalDataSource>()),
   );
@@ -100,7 +99,6 @@ void _initHomeDependencies() {
     () => HomeCubit(),
   );
 }
-
 // =============================Login ============================
 
 _initLoginDependencies() async {
@@ -110,7 +108,6 @@ _initLoginDependencies() async {
   );
 
   //UseCase
-
   getIt.registerLazySingleton<LoginUseCase>(() =>
       LoginUseCase(getIt<TokenSharedPrefs>(), getIt<AuthRemoteRepository>()));
 
