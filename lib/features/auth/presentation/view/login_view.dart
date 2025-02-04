@@ -60,16 +60,6 @@ class _LoginViewState extends State<LoginView> {
         width: double.infinity,
         decoration: const BoxDecoration(
           color: Color(0xFF111827),
-
-
-          // gradient: LinearGradient(
-          //   begin: Alignment.topLeft,
-          //   end: Alignment.bottomRight,
-          //   colors: [
-          //     Color(0xFF2E1371),
-          //     Color(0xFF130B2B),
-          //   ],
-          // ),
         ),
         child: SingleChildScrollView(
           child: Padding(
