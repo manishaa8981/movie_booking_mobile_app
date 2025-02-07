@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:movie_ticket_booking/features/home/presentation/view/bottom_view/dashboard.dart';
+import 'package:movie_ticket_booking/features/dashboard/presentation/view/movie_view.dart';
 import 'package:movie_ticket_booking/features/home/presentation/view/bottom_view/movie.dart';
 import 'package:movie_ticket_booking/features/home/presentation/view/bottom_view/profile.dart';
 
@@ -14,8 +14,8 @@ class _HomeViewState extends State<HomeView> {
   int _selectedIndex = 0;
 
   List<Widget> lstBottomScreen = [
-    const Dashbaord(),
-    const Movie(),
+    const MovieView(),
+    const Released(),
     const Profile(),
   ];
 
@@ -32,18 +32,6 @@ class _HomeViewState extends State<HomeView> {
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Color.fromARGB(255, 3, 21, 87),
-          // gradient: const LinearGradient(
-          //   colors: [
-          //     Color.fromARGB(200, 19, 19, 19), // Dark Gradient
-          //     Color.fromARGB(200, 35, 4, 74), // Purple Gradient
-          //   ],
-          //   begin: Alignment.topCenter,
-          //   end: Alignment.bottomCenter,
-          // ),
-          // borderRadius: const BorderRadius.only(
-          //   topLeft: Radius.circular(20),
-          //   topRight: Radius.circular(20),
-          // ),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.3),
