@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_ticket_booking/core/common/snackbar/my_snackbar.dart';
 import 'package:movie_ticket_booking/features/auth/presentation/view/sign_up_view.dart';
 import '../view_model/login/login_bloc.dart';
 
@@ -295,23 +294,4 @@ class _LoginViewState extends State<LoginView> {
 }
 
 
-  // void _login() {
-  //   if (_formKey.currentState!.validate()) {
-  //     // Access the text property of the controllers
-  //     if (_usernameController.text == "admin" &&
-  //         _passwordController.text == "admin123") {
-  //       Navigator.pushNamed(context, '/home');
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(
-  //           content: Text('Login successful!'),
-  //           backgroundColor: Colors.grey,
-  //         ),
-  //       );
-  //     } else {
-  //       // Optionally, you can show an error message if login fails
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(content: Text('Invalid username or password')),
-  //       );
-  //     }
-  //   }
-  // }
+
