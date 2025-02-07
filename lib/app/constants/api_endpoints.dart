@@ -9,8 +9,8 @@ class ApiEndpoints {
   // ================= Auth Routes =========================
   static const String login = "auth/loginMobile";
   static const String register = "auth/registerMobile";
-  // static const String getAllStudents = "auth/getAllStudents";
-  // static const String getStudentsByBatch = "auth/getStudentsByBatch/";
+  static const String getAllMovies = "movie/get";
+  static const String getMovieDetails = "movie";
   // static const String getStudentsByCourse = "auth/getStudentsByCourse/";
   // static const String updateStudent = "auth/updateStudent/";
   // static const String deleteStudent = "auth/deleteStudent/";
