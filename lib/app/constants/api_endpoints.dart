@@ -3,8 +3,8 @@ class ApiEndpoints {
 
   static const Duration connectionTimeout = Duration(seconds: 1000);
   static const Duration receiveTimeout = Duration(seconds: 5000);
-  static const String baseUrl = "http://192.168.137.1:4011/api/";
-  // static const String baseUrl = "http://10.0.2.2:4011/api/";
+  // static const String baseUrl = "http://192.168.137.1:4011/api/";
+  static const String baseUrl = "http://10.0.2.2:4011/api/";
 
   // ================= Auth Routes =========================
   static const String login = "auth/loginMobile";
@@ -17,9 +17,9 @@ class ApiEndpoints {
   // static const String imageUrl = "http://10.0.2.2:3000/uploads";
   static const String uploadImage = "customer/uploadImage";
 
-  // // ======================== Batch Routes =============================
-  // static const String createBatch = "batch/createBatch";
-  // static const String getAllBatch = "batch/getAllBatches";
+  // // ======================== Movie Routes =============================
+  static const String getAllMovies = "movie/";
+  static const String getMovieDetails = "movie/:id"; // wrong xa yo ahila
 
   // ======================== Batch Routes =============================
   // static const String createCourse = "course/createCourse";

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:movie_ticket_booking/core/common/snackbar/my_snackbar.dart';
 import 'package:movie_ticket_booking/features/auth/presentation/view/sign_up_view.dart';
 import '../view_model/login/login_bloc.dart';
 
