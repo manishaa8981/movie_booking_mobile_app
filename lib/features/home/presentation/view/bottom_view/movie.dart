@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Released extends StatefulWidget {
-  const Released({super.key});
+class Movie extends StatefulWidget {
+  const Movie({super.key});
 
   @override
-  State<Released> createState() => _ReleasedState();
+  State<Movie> createState() => _MovieState();
 }
 
-class _ReleasedState extends State<Released> {
+class _MovieState extends State<Movie> {
   @override
   Widget build(BuildContext context) {
     return AppBar();
