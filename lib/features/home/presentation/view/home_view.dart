@@ -4,6 +4,7 @@ import 'package:movie_ticket_booking/core/common/snackbar/my_snackbar.dart';
 import 'package:movie_ticket_booking/features/home/presentation/view_model/home_cubit.dart';
 import 'package:movie_ticket_booking/features/home/presentation/view_model/home_state.dart';
 import 'package:movie_ticket_booking/features/dashboard/presentation/view/movie_view.dart';
+import 'package:movie_ticket_booking/features/home/presentation/view/bottom_view/dashboard.dart';
 import 'package:movie_ticket_booking/features/home/presentation/view/bottom_view/movie.dart';
 import 'package:movie_ticket_booking/features/home/presentation/view/bottom_view/profile.dart';
 
@@ -19,8 +20,8 @@ class _HomeViewState extends State<HomeView> {
   int _selectedIndex = 0;
 
   List<Widget> lstBottomScreen = [
-    const MovieView(),
-    const Released(),
+    const Dashbaord(),
+    const Movie(),
     const Profile(),
   ];
 
