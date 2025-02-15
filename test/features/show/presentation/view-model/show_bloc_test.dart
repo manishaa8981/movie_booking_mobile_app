@@ -29,7 +29,6 @@ final mockHall = HallEntity(
 
 final mockMovie = MovieEntity(
   movieId: 'movie1',
-  title: 'Inception',
   duration: '140 minutes', movie_name: 'Titanic', trailer_url: 'http://youtube.com',
 );
 

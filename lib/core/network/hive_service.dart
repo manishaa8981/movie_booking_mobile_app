@@ -1,6 +1,7 @@
 import 'package:hive_flutter/adapters.dart';
 import 'package:movie_ticket_booking/app/constants/hive_table_constant.dart';
 import 'package:movie_ticket_booking/features/auth/data/model/auth_hive_model.dart';
+import 'package:movie_ticket_booking/features/dashboard/data/model/movie_hive_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 class HiveService {
@@ -12,7 +13,7 @@ class HiveService {
 
     //Register Adapter
     Hive.registerAdapter(AuthHiveModelAdapter());
-
+    Hive.registerAdapter(MovieHiveModelAdapter());
   }
 
   // Auth Queries
@@ -47,9 +48,22 @@ class HiveService {
     return user;
   }
 
+  //
+  Future<void> get(MovieHiveModel movie) async {
+    var box = await Hive.openBox<MovieHiveModel>(HiveTableConstant.movieBox);
+    await box.put(movie.movieId, movie);
+  }
+
+  Future<List<MovieHiveModel>> getAllMovies() async {
+    // Sort by BatchName
+    var box = await Hive.openBox<MovieHiveModel>(HiveTableConstant.movieBox);
+    return box.values.toList()
+      ..sort((a, b) => a.movie_name.compareTo(b.movie_name));
+  }
+
   Future<void> clearAll() async {
     await Hive.deleteBoxFromDisk(HiveTableConstant.authBox);
-    // await Hive.deleteBoxFromDisk(HiveTableConstant.);
+    await Hive.deleteBoxFromDisk(HiveTableConstant.movieBox);
     // await Hive.deleteBoxFromDisk(HiveTableConstant.studentBox);
   }
 

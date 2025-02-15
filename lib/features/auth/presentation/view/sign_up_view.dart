@@ -164,7 +164,8 @@ class _SignUpViewState extends State<SignUpView> {
                             ElevatedButton.icon(
                               onPressed: () {
                                 checkCameraPermission();
-                                _browseImage(ImageSource.camera);            // upload image it is not null
+                                _browseImage(ImageSource
+                                    .camera); // upload image it is not null
                                 Navigator.pop(context);
                               },
                               icon: const Icon(Icons.camera),

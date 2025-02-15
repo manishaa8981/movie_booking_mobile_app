@@ -34,14 +34,12 @@ void main() {
     final mockMovies = [
       MovieEntity(
         movieId: 'movie1',
-        title: 'Inception',
         duration: '140 minutes',
         movie_name: 'Inception',
         trailer_url: 'http://youtube.com',
       ),
       MovieEntity(
         movieId: 'movie2',
-        title: 'Titanic',
         duration: '180 minutes',
         movie_name: 'Titanic',
         trailer_url: 'http://youtube.com',
@@ -50,7 +48,6 @@ void main() {
 
     final mockMovieDetails = MovieEntity(
       movieId: 'movie1',
-      title: 'Inception',
       duration: '140 minutes',
       movie_name: 'Inception',
       trailer_url: 'http://youtube.com',
