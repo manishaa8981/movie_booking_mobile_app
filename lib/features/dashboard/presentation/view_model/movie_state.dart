@@ -4,11 +4,13 @@ class MovieState extends Equatable {
   final List<MovieEntity> movies;
   final bool isLoading;
   final String? error;
+  final MovieEntity? selectedMovie;
 
   const MovieState({
     required this.movies,
     required this.isLoading,
     this.error,
+    this.selectedMovie,
   });
 
   factory MovieState.initial() {
@@ -16,6 +18,7 @@ class MovieState extends Equatable {
       movies: [],
       isLoading: false,
       error: null,
+      selectedMovie: null,
     );
   }
 
@@ -23,11 +26,13 @@ class MovieState extends Equatable {
     List<MovieEntity>? movies,
     bool? isLoading,
     String? error,
+    MovieEntity? selectedMovie,
   }) {
     return MovieState(
       movies: movies ?? this.movies,
       isLoading: isLoading ?? this.isLoading,
       error: error,
+      selectedMovie: selectedMovie ?? this.selectedMovie,
     );
   }
 

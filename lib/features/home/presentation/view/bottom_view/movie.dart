@@ -4,6 +4,11 @@ class Movie extends StatefulWidget {
   const Movie({super.key});
 
   @override
+  State<Movie> createState() => _ReleasedState();
+}
+
+class _ReleasedState extends State<Movie> {
+
   State<Movie> createState() => _MovieState();
 }
 

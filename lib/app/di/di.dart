@@ -12,6 +12,11 @@ import 'package:movie_ticket_booking/features/auth/domain/use_case/register_user
 import 'package:movie_ticket_booking/features/auth/domain/use_case/upload_image_usecase.dart';
 import 'package:movie_ticket_booking/features/auth/presentation/view_model/login/login_bloc.dart';
 import 'package:movie_ticket_booking/features/auth/presentation/view_model/signup/register_bloc.dart';
+import 'package:movie_ticket_booking/features/dashboard/data/data_source/remote_datasource/movie_remote_datasource.dart';
+import 'package:movie_ticket_booking/features/dashboard/data/repository/movie_remote_repository.dart';
+import 'package:movie_ticket_booking/features/dashboard/domain/use_case/get_all_movies_usecase.dart';
+import 'package:movie_ticket_booking/features/dashboard/domain/use_case/get_movie_details_usecase.dart';
+import 'package:movie_ticket_booking/features/dashboard/presentation/view_model/movie_bloc.dart';
 import 'package:movie_ticket_booking/features/home/presentation/view_model/home_cubit.dart';
 import 'package:movie_ticket_booking/features/splash/presentation/view_model/on_boarding/on_boarding_cubit.dart';
 import 'package:movie_ticket_booking/features/splash/presentation/view_model/splash_cubit.dart';
@@ -23,6 +28,7 @@ Future<void> initDependencies() async {
   await _initHiveService();
   await _initApiService();
   await _initSharedPreferences();
+  _initMovieDependencies();
   _initHomeDependencies();
   _initRegisterDependencies();
   _initLoginDependencies();
@@ -53,7 +59,6 @@ void _initOnboardingScreenDependencies() {
 /// ====================  Register ===================
 
 _initRegisterDependencies() {
-  
   //DataSource
   getIt.registerLazySingleton<AuthLocalDataSource>(
     () => AuthLocalDataSource(getIt<HiveService>()),
@@ -123,5 +128,42 @@ _initLoginDependencies() async {
 void _initSplashScreenDependencies() {
   getIt.registerFactory<SplashCubit>(
     () => SplashCubit(getIt<LoginBloc>()),
+  );
+}
+
+// =============================Movie ============================
+
+void _initMovieDependencies() {
+  //DataSource
+  getIt.registerLazySingleton<MovieRemoteDatasource>(
+    () => MovieRemoteDatasource(dio: getIt<Dio>()),
+  );
+
+  //Repository
+  getIt.registerLazySingleton<MovieRemoteRepository>(
+    () => MovieRemoteRepository(
+      getIt<MovieRemoteDatasource>(),
+    ),
+  );
+
+  //Usecase
+  getIt.registerLazySingleton<GetAllMoviesUseCase>(
+    () => GetAllMoviesUseCase(
+      repository: getIt<MovieRemoteRepository>(),
+    ),
+  );
+
+  getIt.registerLazySingleton<GetMovieDetailsUseCase>(
+    () => GetMovieDetailsUseCase(
+      getIt<MovieRemoteRepository>(),
+    ),
+  );
+
+  //Bloc
+  getIt.registerFactory<MovieBloc>(
+    () => MovieBloc(
+      getAllMoviesUseCase: getIt<GetAllMoviesUseCase>(),
+      getMovieDetailsUseCase: getIt<GetMovieDetailsUseCase>(),
+    ),
   );
 }

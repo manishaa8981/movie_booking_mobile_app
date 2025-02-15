@@ -4,7 +4,6 @@ class MovieEntity extends Equatable {
   final String? movieId;
   final String movie_name;
   final String? movie_image;
-  final String? title;
   final String? genre;
   final String? language;
   final String? duration;
@@ -20,7 +19,6 @@ class MovieEntity extends Equatable {
     this.movieId,
     required this.movie_name,
     this.movie_image,
-    this.title,
     this.genre,
     this.language,
     this.duration,
@@ -37,7 +35,6 @@ class MovieEntity extends Equatable {
       : movieId = '_empty.movieId',
         movie_name = '_empty.movie_name',
         movie_image = null,
-        title = '_empty.title',
         genre = '_empty.genre',
         language = '_empty.language',
         duration = '_empty.duration',
@@ -54,7 +51,6 @@ class MovieEntity extends Equatable {
         movieId,
         movie_name,
         movie_image,
-        title,
         genre,
         language,
         duration,

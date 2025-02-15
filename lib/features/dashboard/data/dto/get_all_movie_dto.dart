@@ -11,8 +11,13 @@ class GetAllMovieDTO {
     required this.data,
   });
 
-  Map<String, dynamic> toJson() => _$GetAllMovieDTOToJson(this);
+  factory GetAllMovieDTO.fromJson(List<dynamic> jsonList) {
+    return GetAllMovieDTO(
+      data: jsonList
+          .map((e) => MovieApiModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+  }
 
-  factory GetAllMovieDTO.fromJson(Map<String, dynamic> json) =>
-      _$GetAllMovieDTOFromJson(json);
+  List<Map<String, dynamic>> toJson() => data.map((e) => e.toJson()).toList();
 }
