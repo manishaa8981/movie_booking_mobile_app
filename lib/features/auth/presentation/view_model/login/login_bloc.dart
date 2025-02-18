@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_ticket_booking/core/common/snackbar/my_snackbar.dart';
 import 'package:movie_ticket_booking/features/auth/domain/use_case/login_usecase.dart';
 import 'package:movie_ticket_booking/features/auth/presentation/view_model/signup/register_bloc.dart';
-import 'package:movie_ticket_booking/features/dashboard/presentation/view/movie_view.dart';
+import 'package:movie_ticket_booking/features/home/presentation/view/home_view.dart';
 import 'package:movie_ticket_booking/features/home/presentation/view_model/home_cubit.dart';
 
 part 'login_event.dart';
@@ -76,7 +76,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
             add(
               NavigateHomeScreenEvent(
                 context: event.context,
-                destination: const MovieView(),
+                destination: const HomeView(),
               ),
             );
 
