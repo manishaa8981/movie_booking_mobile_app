@@ -8,11 +8,6 @@ class Movie extends StatefulWidget {
 }
 
 class _ReleasedState extends State<Movie> {
-
-  State<Movie> createState() => _MovieState();
-}
-
-class _MovieState extends State<Movie> {
   @override
   Widget build(BuildContext context) {
     return AppBar();
