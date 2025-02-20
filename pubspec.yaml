@@ -33,6 +33,9 @@ dependencies:
   flutter_bloc: 9.0.0
   bloc: 9.0.0
   carousel_slider: ^5.0.0
+  video_player: ^2.9.2
+  integration_test:
+    sdk: flutter
 dev_dependencies:
   flutter_test:
     sdk: flutter

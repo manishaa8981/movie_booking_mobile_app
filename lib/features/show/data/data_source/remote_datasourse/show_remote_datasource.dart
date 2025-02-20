@@ -9,14 +9,13 @@ class ShowRemoteDatasource implements IShowDataSource {
   final Dio _dio;
 
   ShowRemoteDatasource({required Dio dio}) : _dio = dio;
-
   @override
   Future<List<ShowEntity>> getAllShows() async {
     try {
-      var response = await _dio.get(ApiEndpoints.getAllMovies);
+      var response = await _dio.get(ApiEndpoints.getAllShows);
       if (response.statusCode == 200) {
-        GetAllShowsDto movieDTO = GetAllShowsDto.fromJson(response.data);
-        return ShowApiModel.toEntityList(movieDTO.data);
+        GetAllShowsDto showDTO = GetAllShowsDto.fromJson(response.data);
+        return ShowApiModel.toEntityList(showDTO.data);
       } else {
         throw Exception("Failed to fetch movies: ${response.statusMessage}");
       }
@@ -27,6 +26,31 @@ class ShowRemoteDatasource implements IShowDataSource {
       throw Exception("Unexpected error: ${e.toString()}");
     }
   }
-
-
 }
+// @override
+// Future<List<ShowEntity>> getAllShows() async {
+//   try {
+//     var response = await _dio.get(ApiEndpoints.getAllShows);
+
+//     if (response.statusCode == 200) {
+//       // print("✅ API Response Type: ${response.data.runtimeType}");
+//       // print("✅ API Response: ${response.data}");
+
+//       if (response.data is List<dynamic>) {
+//         final GetAllShowsDto showDto =
+//             GetAllShowsDto.fromJson(response.data as List<dynamic>);
+
+//         return ShowApiModel.toEntityList(showDto.data);
+//       } else {
+//         throw Exception(
+//             "Invalid API response format: Expected List but got ${response.data.runtimeType}");
+//       }
+//     } else {
+//       throw Exception("Failed to fetch shows: ${response.statusMessage}");
+//     }
+//   } on DioException catch (e) {
+//     throw Exception(e.response?.statusMessage ?? e.message ?? "Unknown Dio error");
+//   } catch (e) {
+//     throw Exception("Unexpected error: ${e.toString()}");
+//   }
+// }

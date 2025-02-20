@@ -23,7 +23,7 @@ class ApiEndpoints {
   static const String getMovieDetails = "movie/:id";
 
   // // ======================== Show Routes =============================
-  static const String getAllShows = "show/";
+  static const String getAllShows = "showtime/";
   // static const String getshowByid = "show/:id";
 
   // // ======================== Hall Routes =============================

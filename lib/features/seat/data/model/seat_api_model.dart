@@ -12,24 +12,50 @@ class SeatApiModel extends Equatable {
   final String? seatId;
   final HallApiModel hall;
   final ShowApiModel show;
-  final int seatColumn;
-  final int seatRow;
-  final String seatName;
-  final bool seatStatus;
+  final int? seatColumn;
+  final int? seatRow;
+  final String? seatName;
+  final bool? seatStatus; // Changed from Bool to bool
 
   const SeatApiModel({
     this.seatId,
     required this.hall,
     required this.show,
-    required this.seatColumn,
-    required this.seatRow,
-    required this.seatName,
-    required this.seatStatus,
+    this.seatColumn,
+    this.seatRow,
+    this.seatName,
+    this.seatStatus,
   });
 
+  /// ✅ Provide an empty instance
+  static SeatApiModel empty() {
+    return SeatApiModel(
+      seatId: '',
+      hall: HallApiModel.empty(),  // ✅ Handles missing Hall data
+      show: ShowApiModel.empty(),  // ✅ Handles missing Show data
+      seatColumn: 0,
+      seatRow: 0,
+      seatName: '',
+      seatStatus: false,
+    );
+  }
+
   /// ✅ Convert API JSON to `SeatApiModel`
-  factory SeatApiModel.fromJson(Map<String, dynamic> json) =>
-      _$SeatApiModelFromJson(json);
+  factory SeatApiModel.fromJson(Map<String, dynamic> json) {
+    return SeatApiModel(
+      seatId: json['_id'] as String?,
+      hall: json['hall'] is String
+          ? HallApiModel.empty() // Handles case when hall is just an ID
+          : HallApiModel.fromJson(json['hall'] as Map<String, dynamic>),
+      show: json['show'] is String
+          ? ShowApiModel.empty() // Handles case when show is just an ID
+          : ShowApiModel.fromJson(json['show'] as Map<String, dynamic>),
+      seatColumn: json['seatColumn'] as int?,
+      seatRow: json['seatRow'] as int?,
+      seatName: json['seatName'] as String?,
+      seatStatus: json['seatStatus'] as bool?,
+    );
+  }
 
   /// ✅ Convert `SeatApiModel` to JSON
   Map<String, dynamic> toJson() => _$SeatApiModelToJson(this);
@@ -50,10 +76,10 @@ class SeatApiModel extends Equatable {
         seatId: entity.seatId,
         hall: HallApiModel.fromEntity(entity.hall),
         show: ShowApiModel.fromEntity(entity.show),
-        seatColumn: entity.seatColumn ?? 0,
-        seatRow: entity.seatRow ?? 0,
-        seatName: entity.seatName ?? '',
-        seatStatus: entity.seatStatus ?? false,
+        seatColumn: entity.seatColumn,
+        seatRow: entity.seatRow,
+        seatName: entity.seatName,
+        seatStatus: entity.seatStatus,
       );
 
   /// ✅ Convert List of API Models to List of Entities
@@ -65,6 +91,13 @@ class SeatApiModel extends Equatable {
       entities.map((entity) => fromEntity(entity)).toList();
 
   @override
-  List<Object?> get props =>
-      [seatId, hall, show, seatColumn, seatRow, seatName, seatStatus];
+  List<Object?> get props => [
+        seatId,
+        hall,
+        show,
+        seatColumn,
+        seatRow,
+        seatName,
+        seatStatus,
+      ];
 }

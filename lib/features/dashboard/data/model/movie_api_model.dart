@@ -37,11 +37,45 @@ class MovieApiModel extends Equatable {
     required this.trailer_url,
   });
 
-  factory MovieApiModel.fromJson(Map<String, dynamic> json) =>
-      _$MovieApiModelFromJson(json);
+  /// ✅ Factory method for an empty `MovieApiModel`
+  factory MovieApiModel.empty() => const MovieApiModel(
+        movieId: "N/A",
+        movie_name: "Unknown Movie",
+        movie_image: null,
+        genre: "Unknown",
+        language: "Unknown",
+        duration: "Unknown",
+        description: "No description available",
+        release_date: "Unknown",
+        cast_name: "Unknown Cast",
+        cast_image: null,
+        rating: "N/A",
+        status: "Unknown",
+        trailer_url: "",
+      );
+
+factory MovieApiModel.fromJson(Map<String, dynamic> json) {
+  return MovieApiModel(
+    movieId: json['_id'] as String?,
+    movie_name: json['movie_name'] as String? ?? "Unknown Movie",
+    movie_image: json['movie_image'] as String?,
+    genre: json['genre'] as String?,
+    language: json['language'] as String?,
+    duration: json['duration'] as String?,
+    description: json['description'] as String?,
+    release_date: json['release_date'] as String?,
+    cast_name: json['cast_name'] as String?,
+    cast_image: json['cast_image'] as String?,
+    rating: json['rating'] as String?,
+    status: json['status'] as String?,
+    trailer_url: json['trailer_url'] as String? ?? "",
+  );
+}
+
+
   Map<String, dynamic> toJson() => _$MovieApiModelToJson(this);
 
-//To entity
+  /// ✅ Convert `MovieApiModel` to `MovieEntity`
   MovieEntity toEntity() => MovieEntity(
         movieId: movieId,
         movie_name: movie_name,
@@ -57,7 +91,8 @@ class MovieApiModel extends Equatable {
         status: status,
         trailer_url: trailer_url,
       );
-//From entity
+
+  /// ✅ Convert `MovieEntity` to `MovieApiModel`
   static MovieApiModel fromEntity(MovieEntity entity) => MovieApiModel(
         movieId: entity.movieId,
         movie_name: entity.movie_name,
@@ -74,11 +109,11 @@ class MovieApiModel extends Equatable {
         trailer_url: entity.trailer_url,
       );
 
-//To Entity List
+  /// ✅ Convert List of API Models to List of Entities
   static List<MovieEntity> toEntityList(List<MovieApiModel> models) =>
       models.map((model) => model.toEntity()).toList();
 
-//From entity list
+  /// ✅ Convert List of Entities to List of API Models
   static List<MovieApiModel> fromEntityList(List<MovieEntity> entities) =>
       entities.map((entity) => fromEntity(entity)).toList();
 

@@ -17,7 +17,7 @@ class ShowBloc extends Bloc<ShowEvent, ShowState> {
     on<LoadShows>(_onLoadShows);
   }
 
-  Future<void> _onLoadShows(LoadShows event, Emitter<ShowState> emit) async {
+  void _onLoadShows(LoadShows event, Emitter<ShowState> emit) async {
     emit(state.copyWith(isLoading: true));
 
     final result = await _getAllShowUseCase.call();

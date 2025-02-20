@@ -18,6 +18,10 @@ import 'package:movie_ticket_booking/features/dashboard/domain/use_case/get_all_
 import 'package:movie_ticket_booking/features/dashboard/domain/use_case/get_movie_details_usecase.dart';
 import 'package:movie_ticket_booking/features/dashboard/presentation/view_model/movie_bloc.dart';
 import 'package:movie_ticket_booking/features/home/presentation/view_model/home_cubit.dart';
+import 'package:movie_ticket_booking/features/show/data/data_source/remote_datasourse/show_remote_datasource.dart';
+import 'package:movie_ticket_booking/features/show/data/repository/show_remote_repostory.dart';
+import 'package:movie_ticket_booking/features/show/domain/usecase/get_all_show.dart';
+import 'package:movie_ticket_booking/features/show/presentation/view-model/show_bloc.dart';
 import 'package:movie_ticket_booking/features/splash/presentation/view_model/on_boarding/on_boarding_cubit.dart';
 import 'package:movie_ticket_booking/features/splash/presentation/view_model/splash_cubit.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -28,6 +32,7 @@ Future<void> initDependencies() async {
   await _initHiveService();
   await _initApiService();
   await _initSharedPreferences();
+  _initShowDependencies();
   _initMovieDependencies();
   _initHomeDependencies();
   _initRegisterDependencies();
@@ -164,6 +169,36 @@ void _initMovieDependencies() {
     () => MovieBloc(
       getAllMoviesUseCase: getIt<GetAllMoviesUseCase>(),
       getMovieDetailsUseCase: getIt<GetMovieDetailsUseCase>(),
+    ),
+  );
+}
+
+// =============================Movie ============================
+
+void _initShowDependencies() {
+  //DataSource
+  getIt.registerLazySingleton<ShowRemoteDatasource>(
+    () => ShowRemoteDatasource(dio: getIt<Dio>()),
+  );
+
+  //Repository
+  getIt.registerLazySingleton<ShowRemoteRepository>(
+    () => ShowRemoteRepository(
+      getIt<ShowRemoteDatasource>(),
+    ),
+  );
+
+  //Usecase
+  getIt.registerLazySingleton<GetAllShowUseCase>(
+    () => GetAllShowUseCase(
+      repository: getIt<ShowRemoteRepository>(),
+    ),
+  );
+
+  //Bloc
+  getIt.registerFactory<ShowBloc>(
+    () => ShowBloc(
+      getAllShowUseCase: getIt<GetAllShowUseCase>(),
     ),
   );
 }

@@ -2,6 +2,8 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:movie_ticket_booking/app/constants/hive_table_constant.dart';
 import 'package:movie_ticket_booking/features/auth/data/model/auth_hive_model.dart';
 import 'package:movie_ticket_booking/features/dashboard/data/model/movie_hive_model.dart';
+import 'package:movie_ticket_booking/features/hall/data/model/hall_hive_model.dart';
+import 'package:movie_ticket_booking/features/seat/data/model/seat_hive_model.dart';
 import 'package:path_provider/path_provider.dart';
 
 class HiveService {
@@ -59,6 +61,20 @@ class HiveService {
     var box = await Hive.openBox<MovieHiveModel>(HiveTableConstant.movieBox);
     return box.values.toList()
       ..sort((a, b) => a.movie_name.compareTo(b.movie_name));
+  }
+
+  Future<List<HallHiveModel>> getAllHalls() async {
+    // Sort by BatchName
+    var box = await Hive.openBox <HallHiveModel > (HiveTableConstant.hallBox);
+    return box.values.toList()
+      ..sort((a, b) => a.hall_name.compareTo(b.hall_name));
+  }
+
+    Future<List<SeatHiveModel>> getAllSeats() async {
+    // Sort by BatchName
+    var box = await Hive.openBox <SeatHiveModel > (HiveTableConstant.seatBox);
+    return box.values.toList()
+      ..sort((a, b) => a.seatId.compareTo(b.seatId));
   }
 
   Future<void> clearAll() async {

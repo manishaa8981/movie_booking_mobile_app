@@ -17,7 +17,7 @@ void main() {
 
   setUp(() {
     mockSeatRepository = MockSeatRepository();
-    getAllSeatUsecase = GetAllSeatUsecase(repository: mockSeatRepository);
+    getAllSeatUsecase = GetAllSeatUsecase(repository: mockSeatRepository, hallId: '');
   });
 
   final tSeat1 = SeatEntity(

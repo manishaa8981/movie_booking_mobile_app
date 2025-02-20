@@ -386,8 +386,8 @@ class _MovieViewState extends State<MovieView> {
   }
 
   String _getImageUrl(String? imagePath) {
-    const String baseUrl = "http://10.0.2.2:4011/public/uploads/images/";
-    // const String baseUrl = "http://192.168.137.1:4011/public/uploads/images/";
+    // const String baseUrl = "http://10.0.2.2:4011/public/uploads/images/";
+    const String baseUrl = "http://192.168.137.1:4011/public/uploads/images/";
 
     return imagePath != null
         ? "$baseUrl$imagePath"
