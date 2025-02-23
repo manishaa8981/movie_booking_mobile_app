@@ -10,8 +10,8 @@ part 'seat_api_model.g.dart';
 class SeatApiModel extends Equatable {
   @JsonKey(name: '_id')
   final String? seatId;
-  final HallApiModel hall;
-  final ShowApiModel show;
+  final HallApiModel hallId;
+  final ShowApiModel showtimeId;
   final int? seatColumn;
   final int? seatRow;
   final String? seatName;
@@ -19,8 +19,8 @@ class SeatApiModel extends Equatable {
 
   const SeatApiModel({
     this.seatId,
-    required this.hall,
-    required this.show,
+    required this.hallId,
+    required this.showtimeId,
     this.seatColumn,
     this.seatRow,
     this.seatName,
@@ -31,8 +31,8 @@ class SeatApiModel extends Equatable {
   static SeatApiModel empty() {
     return SeatApiModel(
       seatId: '',
-      hall: HallApiModel.empty(),  // ✅ Handles missing Hall data
-      show: ShowApiModel.empty(),  // ✅ Handles missing Show data
+      hallId: HallApiModel.empty(),  // ✅ Handles missing Hall data
+      showtimeId: ShowApiModel.empty(),  // ✅ Handles missing Show data
       seatColumn: 0,
       seatRow: 0,
       seatName: '',
@@ -44,12 +44,12 @@ class SeatApiModel extends Equatable {
   factory SeatApiModel.fromJson(Map<String, dynamic> json) {
     return SeatApiModel(
       seatId: json['_id'] as String?,
-      hall: json['hall'] is String
+      hallId: json['hallId'] is String
           ? HallApiModel.empty() // Handles case when hall is just an ID
-          : HallApiModel.fromJson(json['hall'] as Map<String, dynamic>),
-      show: json['show'] is String
+          : HallApiModel.fromJson(json['hallId'] as Map<String, dynamic>),
+      showtimeId: json['showtimeId'] is String
           ? ShowApiModel.empty() // Handles case when show is just an ID
-          : ShowApiModel.fromJson(json['show'] as Map<String, dynamic>),
+          : ShowApiModel.fromJson(json['showtimeId'] as Map<String, dynamic>),
       seatColumn: json['seatColumn'] as int?,
       seatRow: json['seatRow'] as int?,
       seatName: json['seatName'] as String?,
@@ -63,8 +63,8 @@ class SeatApiModel extends Equatable {
   /// ✅ Convert `SeatApiModel` to Domain Entity (`SeatEntity`)
   SeatEntity toEntity() => SeatEntity(
         seatId: seatId,
-        hall: hall.toEntity(),
-        show: show.toEntity(),
+        hallId: hallId.toEntity(),
+        showtimeId: showtimeId.toEntity(),
         seatColumn: seatColumn,
         seatRow: seatRow,
         seatName: seatName,
@@ -74,8 +74,8 @@ class SeatApiModel extends Equatable {
   /// ✅ Convert `SeatEntity` to `SeatApiModel`
   static SeatApiModel fromEntity(SeatEntity entity) => SeatApiModel(
         seatId: entity.seatId,
-        hall: HallApiModel.fromEntity(entity.hall),
-        show: ShowApiModel.fromEntity(entity.show),
+        hallId: HallApiModel.fromEntity(entity.hallId),
+        showtimeId: ShowApiModel.fromEntity(entity.showtimeId),
         seatColumn: entity.seatColumn,
         seatRow: entity.seatRow,
         seatName: entity.seatName,
@@ -93,8 +93,8 @@ class SeatApiModel extends Equatable {
   @override
   List<Object?> get props => [
         seatId,
-        hall,
-        show,
+        hallId,
+        showtimeId,
         seatColumn,
         seatRow,
         seatName,

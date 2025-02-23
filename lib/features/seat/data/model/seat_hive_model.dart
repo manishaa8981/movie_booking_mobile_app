@@ -12,10 +12,10 @@ part 'seat_hive_model.g.dart';
   final String seatId;
 
   @HiveField(1)
-  final HallHiveModel hall;
+  final HallHiveModel hallId;
 
   @HiveField(2)
-  final ShowHiveModel show;
+  final ShowHiveModel showtimeId;
 
   @HiveField(3)
   final int seatColumn;
@@ -31,8 +31,8 @@ part 'seat_hive_model.g.dart';
 
   const SeatHiveModel({
     required this.seatId,
-    required this.hall,
-    required this.show,
+    required this.hallId,
+    required this.showtimeId,
     required this.seatColumn,
     required this.seatRow,
     required this.seatName,
@@ -42,8 +42,8 @@ part 'seat_hive_model.g.dart';
   factory SeatHiveModel.fromEntity(SeatEntity entity) {
     return SeatHiveModel(
       seatId: entity.seatId ?? '',
-      hall: HallHiveModel.fromEntity(entity.hall),
-      show: ShowHiveModel.fromEntity(entity.show),
+      hallId: HallHiveModel.fromEntity(entity.hallId),
+      showtimeId: ShowHiveModel.fromEntity(entity.showtimeId),
       seatColumn: entity.seatColumn ?? 0,
       seatRow: entity.seatRow ?? 0,
       seatName: entity.seatName ?? '',
@@ -54,8 +54,8 @@ part 'seat_hive_model.g.dart';
   SeatEntity toEntity() {
     return SeatEntity(
       seatId: seatId,
-      hall: hall.toEntity(),
-      show: show.toEntity(),
+      hallId: hallId.toEntity(),
+      showtimeId: showtimeId.toEntity(),
       seatColumn: seatColumn,
       seatRow: seatRow,
       seatName: seatName,
@@ -67,8 +67,8 @@ part 'seat_hive_model.g.dart';
   Map<String, dynamic> toJson() {
     return {
       '_id': seatId,
-      'hall': hall.toJson(),
-      'show': show.toJson(),
+      'hallId': hallId.toJson(),
+      'showtimeId': showtimeId.toJson(),
       'seatColumn': seatColumn,
       'seatRow': seatRow,
       'seatName': seatName,
@@ -79,8 +79,8 @@ part 'seat_hive_model.g.dart';
   factory SeatHiveModel.fromJson(Map<String, dynamic> json) {
   return SeatHiveModel(
     seatId: json['_id'] ?? '',
-    hall: HallHiveModel.fromJson(json['hall']),
-    show: ShowHiveModel.fromJson(json['show']),
+    hallId: HallHiveModel.fromJson(json['hallId']),
+    showtimeId: ShowHiveModel.fromJson(json['showtimeId']),
     seatColumn: json['seatColumn'] ?? 0,
     seatRow: json['seatRow'] ?? 0,
     seatName: json['seatName'] ?? '',
@@ -90,6 +90,6 @@ part 'seat_hive_model.g.dart';
 
   @override
   // TODO: implement props
-  List<Object?> get props => [hall ,show , seatColumn, seatRow , seatName , seatStatus , seatId];
+  List<Object?> get props => [showtimeId ,showtimeId , seatColumn, seatRow , seatName , seatStatus , seatId];
 
 }

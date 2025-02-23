@@ -15,18 +15,31 @@ class ShowBloc extends Bloc<ShowEvent, ShowState> {
   })  : _getAllShowUseCase = getAllShowUseCase,
         super(ShowState.initial()) {
     on<LoadShows>(_onLoadShows);
+    on<SelectHall>(_onSelectHall); // ✅ Register event handler
+    on<SelectTime>(_onSelectTime); // New
   }
 
   void _onLoadShows(LoadShows event, Emitter<ShowState> emit) async {
     emit(state.copyWith(isLoading: true));
 
     final result = await _getAllShowUseCase.call();
-
     result.fold(
-      (failure) =>
-          emit(state.copyWith(isLoading: false, error: failure.message)),
+      (failure) => emit(state.copyWith(
+        isLoading: false,
+        error: failure.message,
+        shows: [], // Clear shows on error
+      )),
       (shows) =>
           emit(state.copyWith(isLoading: false, shows: shows, error: null)),
     );
+  }
+
+  void _onSelectHall(SelectHall event, Emitter<ShowState> emit) {
+    print("Event received: Selected Hall -> ${event.hallName}"); // ✅ Debugging
+    emit(state.copyWith(selectedHall: event.hallName, selectedTime: null));
+  }
+
+  void _onSelectTime(SelectTime event, Emitter<ShowState> emit) {
+    emit(state.copyWith(selectedTime: event.timeSlot));
   }
 }
