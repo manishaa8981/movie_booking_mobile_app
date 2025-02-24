@@ -37,12 +37,13 @@ class MyApp extends StatelessWidget {
         BlocProvider<ShowBloc>(
           create: (_) => getIt<ShowBloc>(),
         ),
-        BlocProvider<SeatBloc>(
-          create: (_) => getIt<SeatBloc>(),
-        ),
         BlocProvider<HallBloc>(
           create: (_) => getIt<HallBloc>(),
         ),
+        BlocProvider<SeatBloc>(
+          create: (_) => getIt<SeatBloc>(),
+        ),
+        
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

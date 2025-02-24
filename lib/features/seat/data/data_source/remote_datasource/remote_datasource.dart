@@ -13,7 +13,7 @@ class SeatRemoteDatasource implements ISeatDataSource {
   @override
   Future<List<SeatEntity>> getAllSeats(String hallId) async {
     try {
-      var response = await _dio.get(ApiEndpoints.getAllSeats);
+      var response = await _dio.get(ApiEndpoints.getAllSeats(hallId));
       if (response.statusCode == 200) {
         GetAllSeatsDto seatDTO = GetAllSeatsDto.fromJson(response.data);
         return SeatApiModel.toEntityList(seatDTO.data);
@@ -28,4 +28,3 @@ class SeatRemoteDatasource implements ISeatDataSource {
     }
   }
 }
-

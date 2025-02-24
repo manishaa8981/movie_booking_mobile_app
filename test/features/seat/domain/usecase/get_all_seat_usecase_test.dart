@@ -22,8 +22,8 @@ void main() {
 
   final tSeat1 = SeatEntity(
     seatId: '1',
-    hall: const HallEntity.empty(),
-    show: const ShowEntity.empty(),
+    hallId: const HallEntity.empty(),
+    showId: const ShowEntity.empty(),
     seatColumn: 1,
     seatRow: 1,
     seatName: 'A1',

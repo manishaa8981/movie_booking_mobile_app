@@ -17,7 +17,15 @@ import 'package:movie_ticket_booking/features/dashboard/data/repository/movie_re
 import 'package:movie_ticket_booking/features/dashboard/domain/use_case/get_all_movies_usecase.dart';
 import 'package:movie_ticket_booking/features/dashboard/domain/use_case/get_movie_details_usecase.dart';
 import 'package:movie_ticket_booking/features/dashboard/presentation/view_model/movie_bloc.dart';
+import 'package:movie_ticket_booking/features/hall/data/data_source/remote_datasource/remote_datasource%20copy.dart';
+import 'package:movie_ticket_booking/features/hall/data/repository/hall_remote_repository.dart';
+import 'package:movie_ticket_booking/features/hall/domain/usecase/get_all_hall_usecase.dart';
+import 'package:movie_ticket_booking/features/hall/presentation/view-model/hall_bloc.dart';
 import 'package:movie_ticket_booking/features/home/presentation/view_model/home_cubit.dart';
+import 'package:movie_ticket_booking/features/seat/data/data_source/remote_datasource/remote_datasource.dart';
+import 'package:movie_ticket_booking/features/seat/data/repository/seat_remote_repository.dart';
+import 'package:movie_ticket_booking/features/seat/domain/usecase/get_all_seat_usecase.dart';
+import 'package:movie_ticket_booking/features/seat/presentation/view-model/seat_bloc.dart';
 import 'package:movie_ticket_booking/features/show/data/data_source/remote_datasourse/show_remote_datasource.dart';
 import 'package:movie_ticket_booking/features/show/data/repository/show_remote_repostory.dart';
 import 'package:movie_ticket_booking/features/show/domain/usecase/get_all_show.dart';
@@ -32,6 +40,8 @@ Future<void> initDependencies() async {
   await _initHiveService();
   await _initApiService();
   await _initSharedPreferences();
+  await _initSeatDependencies();
+  await _initHallDependencies();
   _initShowDependencies();
   _initMovieDependencies();
   _initHomeDependencies();
@@ -173,7 +183,7 @@ void _initMovieDependencies() {
   );
 }
 
-// =============================Movie ============================
+// ============================= Show ============================
 
 void _initShowDependencies() {
   //DataSource
@@ -199,6 +209,67 @@ void _initShowDependencies() {
   getIt.registerFactory<ShowBloc>(
     () => ShowBloc(
       getAllShowUseCase: getIt<GetAllShowUseCase>(),
+    ),
+  );
+}
+
+// ============================= Hall ============================
+
+_initHallDependencies() {
+  //DataSource
+  getIt.registerLazySingleton<HallRemoteDatasource>(
+    () => HallRemoteDatasource(dio: getIt<Dio>()),
+  );
+
+  //Repository
+  getIt.registerLazySingleton<HallRemoteRepository>(
+    () => HallRemoteRepository(
+      getIt<HallRemoteDatasource>(),
+    ),
+  );
+
+  //Usecase
+  getIt.registerLazySingleton<GetAllHallUsecase>(
+    () => GetAllHallUsecase(
+      repository: getIt<HallRemoteRepository>(),
+    ),
+  );
+
+  //Bloc
+  getIt.registerFactory<HallBloc>(
+    () => HallBloc(
+      getAllHallUsecase: getIt<GetAllHallUsecase>(),
+    ),
+  );
+}
+
+// ============================= Show ============================
+
+_initSeatDependencies() {
+  //DataSource
+  getIt.registerLazySingleton<SeatRemoteDatasource>(
+    () => SeatRemoteDatasource(dio: getIt<Dio>()),
+  );
+
+  //Repository
+  getIt.registerLazySingleton<SeatRemoteRepository>(
+    () => SeatRemoteRepository(
+      getIt<SeatRemoteDatasource>(),
+    ),
+  );
+
+  //Usecase
+  getIt.registerLazySingleton<GetAllSeatUsecase>(
+    () => GetAllSeatUsecase(
+      repository: getIt<SeatRemoteRepository>(),
+      hallId: 'hallId',
+    ),
+  );
+
+  //Bloc
+  getIt.registerFactory<SeatBloc>(
+    () => SeatBloc(
+      getIt<GetAllSeatUsecase>(),
     ),
   );
 }

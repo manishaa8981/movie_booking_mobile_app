@@ -3,8 +3,8 @@ class ApiEndpoints {
 
   static const Duration connectionTimeout = Duration(seconds: 1000);
   static const Duration receiveTimeout = Duration(seconds: 5000);
-  static const String baseUrl = "http://192.168.137.1:4011/api/";
-  // static const String baseUrl = "http://10.0.2.2:4011/api/";
+  // static const String baseUrl = "http://192.168.137.1:4011/api/";
+  static const String baseUrl = "http://10.0.2.2:4011/api/";
 
   // ================= Auth Routes =========================
   static const String login = "auth/loginMobile";
@@ -24,11 +24,13 @@ class ApiEndpoints {
 
   // // ======================== Show Routes =============================
   static const String getAllShows = "showtime/";
-  // static const String getshowByid = "show/:id";
+  static String getshowByid = "showtime/movie/:movieId";
 
   // // ======================== Hall Routes =============================
   static const String getAllHalls = "hall/";
 
   // // ======================== Seat Routes =============================
-  static const String getAllSeats = "seat/";
+  static String getAllSeats(String hallId) {
+    return "seat/hall/$hallId"; // ✅ Returns a dynamic URL
+  }
 }
