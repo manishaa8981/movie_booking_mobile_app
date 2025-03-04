@@ -36,8 +36,7 @@ class AuthApiModel extends Equatable {
         contactNo: contactNo,
         username: username,
         password: password,
-        image: image
-        );
+        image: image);
   }
 
   factory AuthApiModel.fromEntity(AuthEntity entity) {

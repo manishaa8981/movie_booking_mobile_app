@@ -22,8 +22,10 @@ class SeatBloc extends Bloc<SeatEvent, SeatState> {
         await _getAllSeatUsecase.call(event.hallId);
 
     result.fold(
-      (failure) => emit(state.copyWith(isLoading: false, error: failure.message)),
-      (seats) => emit(state.copyWith(isLoading: false, seats: seats, error: null)),
+      (failure) =>
+          emit(state.copyWith(isLoading: false, error: failure.message)),
+      (seats) =>
+          emit(state.copyWith(isLoading: false, seats: seats, error: null)),
     );
   }
 }

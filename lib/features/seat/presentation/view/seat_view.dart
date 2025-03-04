@@ -27,7 +27,7 @@ class SeatLayoutPage extends StatefulWidget {
 
 class _SeatLayoutPageState extends State<SeatLayoutPage> {
   final Set<String> selectedSeats = {}; // ✅ Store seat names instead of IDs
-  static const Color primaryColor = Color(0xFF2196F3);
+  static const Color primaryColor = Colors.orange;
   static const Color backgroundColor = Color(0xFFF5F5F5);
 
   @override
@@ -42,7 +42,7 @@ class _SeatLayoutPageState extends State<SeatLayoutPage> {
       backgroundColor: backgroundColor,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.orange,
         title: Text(
           "Select Seats - ${widget.hallName}",
           style: const TextStyle(
@@ -51,7 +51,7 @@ class _SeatLayoutPageState extends State<SeatLayoutPage> {
           ),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back, color: Colors.black87),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.black87),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -102,7 +102,7 @@ class _SeatLayoutPageState extends State<SeatLayoutPage> {
       margin: const EdgeInsets.symmetric(horizontal: 40),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: Colors.black,
         borderRadius: BorderRadius.circular(12),
         boxShadow: [
           BoxShadow(
@@ -117,7 +117,7 @@ class _SeatLayoutPageState extends State<SeatLayoutPage> {
                 fontSize: 16,
                 fontWeight: FontWeight.bold,
                 letterSpacing: 4,
-                color: Colors.black54)),
+                color: Colors.white)),
       ),
     );
   }
@@ -164,7 +164,7 @@ class _SeatLayoutPageState extends State<SeatLayoutPage> {
     bool isBooked = seat.seatStatus ?? false;
 
     Color seatColor = isBooked
-        ? Colors.grey.shade400
+        ? Colors.red
         : isSelected
             ? primaryColor
             : Colors.white;
@@ -218,7 +218,7 @@ class _SeatLayoutPageState extends State<SeatLayoutPage> {
         children: [
           _buildLegendItem("Available", Colors.white),
           _buildLegendItem("Selected", primaryColor),
-          _buildLegendItem("Booked", Colors.grey.shade400),
+          _buildLegendItem("Booked", Colors.red),
         ],
       ),
     );

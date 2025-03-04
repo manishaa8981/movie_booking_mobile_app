@@ -2,8 +2,10 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_ticket_booking/app/di/di.dart';
+import 'package:movie_ticket_booking/features/auth/presentation/view_model/profile/profile_bloc.dart';
 import 'package:movie_ticket_booking/features/dashboard/presentation/view/movie_view.dart';
 import 'package:movie_ticket_booking/features/dashboard/presentation/view_model/movie_bloc.dart';
+import 'package:movie_ticket_booking/features/home/presentation/view/bottom_view/profile.dart';
 
 class HomeState extends Equatable {
   final int selectedIndex;
@@ -23,19 +25,12 @@ class HomeState extends Equatable {
           create: (context) => getIt<MovieBloc>(),
           child: MovieView(),
         ),
-        // BlocProvider(
-        //   create: (context) => getIt<CourseBloc>(),
-        //   child: CourseView(),
-        // ),
-        // BlocProvider(
-        //   create: (context) => getIt<BatchBloc>(),
-        //   child: BatchView(),
-        // ),
         const Center(
           child: Text('Movies'),
         ),
-        const Center(
-          child: Text('Account'),
+        BlocProvider(
+          create: (context) => getIt<ProfileBloc>(),
+          child: ProfileView(),
         ),
       ],
     );

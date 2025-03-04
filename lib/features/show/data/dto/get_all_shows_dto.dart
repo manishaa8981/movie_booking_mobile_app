@@ -19,21 +19,23 @@ class GetAllShowsDto {
       try {
         // ✅ Remove nulls & filter invalid entries
         List<ShowApiModel> parsedData = json
-            .where((e) => e != null && e is Map<String, dynamic>) // ✅ Prevent nulls
+            .where((e) =>
+                e != null && e is Map<String, dynamic>) 
             .map((e) {
               try {
                 return ShowApiModel.fromJson(e as Map<String, dynamic>);
               } catch (error) {
-                print("❌ Skipping invalid entry: $e - Error: $error");
+                print(" Skipping invalid entry: $e - Error: $error");
                 return null; // ✅ Skip invalid items instead of crashing
               }
             })
-            .whereType<ShowApiModel>() // ✅ Ensure only valid models are returned
+            .whereType<
+                ShowApiModel>()
             .toList();
 
         return GetAllShowsDto(data: parsedData);
       } catch (e, stackTrace) {
-        print("❌ Error parsing GetAllShowsDto: $e\nStack Trace: $stackTrace");
+        print(" Error parsing GetAllShowsDto: $e\nStack Trace: $stackTrace");
         throw Exception("Error parsing GetAllShowsDto: ${e.toString()}");
       }
     } else {

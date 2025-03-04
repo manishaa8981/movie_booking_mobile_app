@@ -1,9 +1,13 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_options.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_ticket_booking/features/dashboard/domain/entity/movie_entity.dart';
 import 'package:movie_ticket_booking/features/dashboard/presentation/view/movie_detail_view.dart';
 import 'package:movie_ticket_booking/features/dashboard/presentation/view_model/movie_bloc.dart';
+import 'package:movie_ticket_booking/utils/gyroscope_tilt_view.dart';
+import 'package:movie_ticket_booking/utils/shake_detector.dart';
 
 class MovieView extends StatefulWidget {
   const MovieView({super.key});
@@ -13,6 +17,35 @@ class MovieView extends StatefulWidget {
 }
 
 class _MovieViewState extends State<MovieView> {
+  late ShakeDetector _shakeDetector;
+
+  @override
+  void initState() {
+    super.initState();
+
+    // ✅ Initialize ShakeDetector for refreshing movies
+    _shakeDetector = ShakeDetector(
+      onShake: _refreshMovieList,
+      shakeThreshold: 2.5,
+    );
+
+    _shakeDetector.startListening();
+
+    // ✅ Fetch movies on init
+    context.read<MovieBloc>().add(LoadMovies());
+  }
+
+  @override
+  void dispose() {
+    _shakeDetector.stopListening();
+    super.dispose();
+  }
+
+  void _refreshMovieList() {
+    debugPrint("🔄 Shake detected! Refreshing Movie List...");
+    context.read<MovieBloc>().add(LoadMovies());
+  }
+
   bool isSearchExpanded = false;
   String selectedLocation = 'New York';
   final List<String> locations = [
@@ -42,12 +75,6 @@ class _MovieViewState extends State<MovieView> {
       trailer_url: 'https://youtu.be/hai51TGlYTw?si=qy9DzOebF_7-sKjn',
     ),
   ];
-
-  @override
-  void initState() {
-    super.initState();
-    context.read<MovieBloc>().add(LoadMovies());
-  }
 
   Widget _buildFeaturedCarousel(List<MovieEntity> movies) {
     return Column(
@@ -173,140 +200,155 @@ class _MovieViewState extends State<MovieView> {
           _showComingSoonDetails(movie);
         }
       },
-      child: Container(
-        width: 160,
-        margin: const EdgeInsets.all(8.0),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.2),
-              blurRadius: 8,
-              offset: const Offset(0, 3),
-            ),
-          ],
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: Stack(
-            children: [
-              // Movie poster image
-              Container(
-                height: 250,
-                decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: NetworkImage(_getImageUrl(movie.movie_image)),
-                    fit: BoxFit.cover,
-                  ),
-                ),
+      child: GyroscopeTiltView(
+        onNavigate: () {
+          if (!isComingSoon) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => MovieDetailView(movie: movie),
               ),
-
-              // Gradient overlay for better text visibility
-              Positioned.fill(
-                child: Container(
+            );
+          } else {
+            _showComingSoonDetails(movie);
+          }
+        },
+        child: Container(
+          width: 160,
+          margin: const EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.2),
+                blurRadius: 8,
+                offset: const Offset(0, 3),
+              ),
+            ],
+          ),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12),
+            child: Stack(
+              children: [
+                // Movie poster image
+                Container(
+                  height: 250,
                   decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.transparent,
-                        Colors.black.withOpacity(0.7),
-                      ],
-                      stops: const [0.6, 1.0],
+                    image: DecorationImage(
+                      image: NetworkImage(_getImageUrl(movie.movie_image)),
+                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-              ),
 
-              // Coming soon tag if applicable
-              if (isComingSoon)
-                Positioned(
-                  top: 8,
-                  left: 8,
+                // Gradient overlay for better text visibility
+                Positioned.fill(
                   child: Container(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                     decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: const Text(
-                      'COMING SOON',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 10,
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withOpacity(0.7),
+                        ],
+                        stops: const [0.6, 1.0],
                       ),
                     ),
                   ),
                 ),
 
-              // Movie title at bottom
-              Positioned(
-                bottom: 0,
-                left: 0,
-                right: 0,
-                child: Container(
-                  padding: const EdgeInsets.all(10.0),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.vertical(
-                        bottom: Radius.circular(12)),
-                    gradient: LinearGradient(
-                      begin: Alignment.bottomCenter,
-                      end: Alignment.topCenter,
-                      colors: [
-                        Colors.black
-                            .withOpacity(0.8), // Dark gradient for readability
-                        Colors.transparent,
-                      ],
+                // Coming soon tag if applicable
+                if (isComingSoon)
+                  Positioned(
+                    top: 8,
+                    left: 8,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 8, vertical: 4),
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      child: const Text(
+                        'COMING SOON',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 10,
+                        ),
+                      ),
                     ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // Movie Name
-                      Text(
-                        movie.movie_name,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                          shadows: [
-                            Shadow(
-                              offset: Offset(1, 1),
-                              blurRadius: 3,
-                              color: Colors.black,
+
+                // Movie title at bottom
+                Positioned(
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  child: Container(
+                    padding: const EdgeInsets.all(10.0),
+                    decoration: BoxDecoration(
+                      borderRadius: const BorderRadius.vertical(
+                          bottom: Radius.circular(12)),
+                      gradient: LinearGradient(
+                        begin: Alignment.bottomCenter,
+                        end: Alignment.topCenter,
+                        colors: [
+                          Colors.black.withOpacity(
+                              0.8), // Dark gradient for readability
+                          Colors.transparent,
+                        ],
+                      ),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Movie Name
+                        Text(
+                          movie.movie_name,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            shadows: [
+                              Shadow(
+                                offset: Offset(1, 1),
+                                blurRadius: 3,
+                                color: Colors.black,
+                              ),
+                            ],
+                          ),
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+
+                        const SizedBox(
+                            height: 4), // Space between name & rating
+
+                        // Rating Row
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            const Icon(Icons.star,
+                                size: 16, color: Colors.orangeAccent),
+                            const SizedBox(width: 4),
+                            Text(
+                              movie.rating ?? "N/A", // ✅ Show "N/A" if null
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 14,
+                              ),
                             ),
                           ],
                         ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-
-                      const SizedBox(height: 4), // Space between name & rating
-
-                      // Rating Row
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          const Icon(Icons.star,
-                              size: 16, color: Colors.orangeAccent),
-                          const SizedBox(width: 4),
-                          Text(
-                            movie.rating ?? "N/A", // ✅ Show "N/A" if null
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 14,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

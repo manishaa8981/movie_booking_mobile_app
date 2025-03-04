@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_ticket_booking/core/common/snackbar/my_snackbar.dart';
+import 'package:movie_ticket_booking/core/theme/theme_cubit.dart';
 import 'package:movie_ticket_booking/features/home/presentation/view_model/home_cubit.dart';
 import 'package:movie_ticket_booking/features/home/presentation/view_model/home_state.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});
-
-  final bool _isDarkTheme = false;
 
   @override
   Widget build(BuildContext context) {
@@ -19,28 +18,26 @@ class HomeView extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () {
-              // Logout code
               mySnackBar(
                 context: context,
                 message: 'Logging out...',
                 color: Colors.red,
               );
-
               context.read<HomeCubit>().logout(context);
             },
           ),
-          Switch(
-            value: _isDarkTheme,
-            onChanged: (value) {
-              // Change theme
-              // setState(() {
-              //   _isDarkTheme = value;
-              // });
+          BlocBuilder<ThemeCubit, bool>(
+            builder: (context, isDarkMode) {
+              return Switch(
+                value: isDarkMode,
+                onChanged: (value) {
+                  context.read<ThemeCubit>().toggleTheme();
+                },
+              );
             },
           ),
         ],
       ),
-      // body: _views.elementAt(_selectedIndex),
       body: BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
         return state.views.elementAt(state.selectedIndex);
       }),
@@ -49,7 +46,7 @@ class HomeView extends StatelessWidget {
           return BottomNavigationBar(
             items: const <BottomNavigationBarItem>[
               BottomNavigationBarItem(
-                icon: Icon(Icons.dashboard),
+                icon: Icon(Icons.home),
                 label: 'Home',
               ),
               BottomNavigationBarItem(

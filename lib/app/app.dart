@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_ticket_booking/core/theme/app_theme.dart';
 import 'package:movie_ticket_booking/features/auth/presentation/view_model/login/login_bloc.dart';
+import 'package:movie_ticket_booking/features/auth/presentation/view_model/profile/profile_bloc.dart';
 import 'package:movie_ticket_booking/features/auth/presentation/view_model/signup/register_bloc.dart';
 import 'package:movie_ticket_booking/features/dashboard/presentation/view_model/movie_bloc.dart';
 import 'package:movie_ticket_booking/features/hall/presentation/view-model/hall_bloc.dart';
@@ -13,8 +14,8 @@ import 'package:movie_ticket_booking/features/splash/presentation/view_model/spl
 
 import 'di/di.dart';
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class App extends StatelessWidget {
+  const App({super.key});
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -31,6 +32,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<RegisterBloc>(
           create: (_) => getIt<RegisterBloc>(),
         ),
+        BlocProvider<ProfileBloc>(
+          create: (_) => getIt<ProfileBloc>(),
+        ),
         BlocProvider<MovieBloc>(
           create: (_) => getIt<MovieBloc>(),
         ),
@@ -43,13 +47,11 @@ class MyApp extends StatelessWidget {
         BlocProvider<SeatBloc>(
           create: (_) => getIt<SeatBloc>(),
         ),
-        
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Movie Ticket Booking',
-        // theme: get.getApplicationTheme(isDarkMode: false),
-        theme: getThemeData(),
+        theme: AppTheme.getApplicationTheme(isDarkMode: false),
         home: const SplashView(),
       ),
     );
