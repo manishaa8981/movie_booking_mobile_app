@@ -19,6 +19,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         super(MovieState.initial()) {
     on<LoadMovies>(_onLoadMovies);
     on<LoadMovieDetails>(_onLoadMovieDetails);
+    on<SearchMovies>(_onSearchMovies);
   }
 
   void _onLoadMovies(LoadMovies event, Emitter<MovieState> emit) async {
@@ -54,6 +55,17 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       )),
     );
   }
+
+  void _onSearchMovies(SearchMovies event, Emitter<MovieState> emit) {
+    if (event.query.isEmpty) {
+      emit(state.copyWith(filteredMovies: state.movies));
+    } else {
+      final filteredMovies = state.movies
+          .where((movie) => movie.movie_name
+              .toLowerCase()
+              .contains(event.query.toLowerCase()))
+          .toList();
+      emit(state.copyWith(filteredMovies: filteredMovies));
+    }
+  }
 }
-
-

@@ -5,7 +5,7 @@
 // import '../../../../core/error/failure.dart';
 
 // class UpdateUserParams {
-//   final String authId; // ✅ Already contains authId
+//   final String authId; // Already contains authId
 //   final String username;
 //   final String contactNo;
 //   final String email;
@@ -44,15 +44,15 @@
 
 //   @override
 //   Future<Either<Failure, void>> call(UpdateUserParams params) async {
-//     // ✅ Fetch Token Correctly
+//     // Fetch Token Correctly
 //     final tokenResult = await tokenSharedPrefs.getToken();
 
 //     return tokenResult.fold(
 //       (failure) => Left(failure), // Handle failure if token retrieval fails
 //       (token) async {
-//         // ✅ Use `params.authId` since it’s already passed in UpdateUserParams
+//         // Use `params.authId` since it’s already passed in UpdateUserParams
 //         return await authRepository.(
-//           params.authId, // ✅ No need to get authId from TokenSharedPrefs
+//           params.authId, // No need to get authId from TokenSharedPrefs
 //           token,
 //           params.toJson(),
 //         );

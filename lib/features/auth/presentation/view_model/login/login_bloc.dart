@@ -89,9 +89,6 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   }
 }
 
-
-
-
 // class LoginBloc extends Bloc<LoginEvent, LoginState> {
 //   final LoginUseCase _loginUseCase;
 //   final GetCurrentUserUseCase _getCurrentUserUseCase;qx
@@ -145,7 +142,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 //           color: Colors.green,
 //         );
 
-//         // ✅ Redirect to Home Screen
+//         // Redirect to Home Screen
 //         Navigator.pushReplacement(
 //           event.context,
 //           MaterialPageRoute(builder: (context) => const HomeView()),
@@ -199,7 +196,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 //           color: Colors.green,
 //         );
 
-//         // ✅ Navigate to Reset Password View
+//         // Navigate to Reset Password View
 //         Navigator.push(
 //           event.context,
 //           MaterialPageRoute(
@@ -243,7 +240,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 //           color: Colors.green,
 //         );
 
-//         // ✅ Redirect to login screen
+//         // Redirect to login screen
 //         Navigator.pop(event.context);
 //       },
 //     );

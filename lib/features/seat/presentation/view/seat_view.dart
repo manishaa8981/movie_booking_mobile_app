@@ -26,7 +26,7 @@ class SeatLayoutPage extends StatefulWidget {
 }
 
 class _SeatLayoutPageState extends State<SeatLayoutPage> {
-  final Set<String> selectedSeats = {}; // ✅ Store seat names instead of IDs
+  final Set<String> selectedSeats = {}; // Store seat names instead of IDs
   static const Color primaryColor = Colors.orange;
   static const Color backgroundColor = Color(0xFFF5F5F5);
 
@@ -160,7 +160,7 @@ class _SeatLayoutPageState extends State<SeatLayoutPage> {
 
   Widget _buildSeatWidget(SeatEntity seat) {
     bool isSelected =
-        selectedSeats.contains(seat.seatName); // ✅ Compare seat names
+        selectedSeats.contains(seat.seatName); // Compare seat names
     bool isBooked = seat.seatStatus ?? false;
 
     Color seatColor = isBooked
@@ -176,7 +176,7 @@ class _SeatLayoutPageState extends State<SeatLayoutPage> {
             if (isSelected) {
               selectedSeats.remove(seat.seatName);
             } else {
-              selectedSeats.add(seat.seatName!); // ✅ Store seat names
+              selectedSeats.add(seat.seatName!); // Store seat names
             }
           });
         }

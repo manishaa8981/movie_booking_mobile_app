@@ -61,7 +61,7 @@ class _PaymentViewState extends State<PaymentView> {
       Future.delayed(const Duration(seconds: 2), () {
         Navigator.pop(context); // Close dialog
 
-        // ✅ Navigate to `TicketView` with real data
+        // Navigate to `TicketView` with real data
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(

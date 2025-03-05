@@ -27,14 +27,14 @@
 //     required this.hall,
 //   });
 
-//   /// ✅ Convert API JSON to `ShowApiModel`
+//   /// Convert API JSON to `ShowApiModel`
 //   factory ShowApiModel.fromJson(Map<String, dynamic> json) =>
 //       _$ShowApiModelFromJson(json);
 
-//   /// ✅ Convert `ShowApiModel` to JSON
+//   /// Convert `ShowApiModel` to JSON
 //   Map<String, dynamic> toJson() => _$ShowApiModelToJson(this);
 
-//   /// ✅ Convert `ShowApiModel` to Domain Entity (`ShowEntity`)
+//   /// Convert `ShowApiModel` to Domain Entity (`ShowEntity`)
 //   ShowEntity toEntity() => ShowEntity(
 //         showId: showId,
 //         start_time: start_time,
@@ -44,7 +44,7 @@
 //         hall: hall.toEntity(),
 //       );
 
-//   /// ✅ Convert `ShowEntity` to `ShowApiModel`
+//   /// Convert `ShowEntity` to `ShowApiModel`
 //   static ShowApiModel fromEntity(ShowEntity entity) => ShowApiModel(
 //         showId: entity.showId,
 //         start_time: entity.start_time,
@@ -54,11 +54,11 @@
 //         hall: HallApiModel.fromEntity(entity.hall),
 //       );
 
-//   /// ✅ Convert List of API Models to List of Entities
+//   /// Convert List of API Models to List of Entities
 //   static List<ShowEntity> toEntityList(List<ShowApiModel> models) =>
 //       models.map((model) => model.toEntity()).toList();
 
-//   /// ✅ Convert List of Entities to List of API Models
+//   /// Convert List of Entities to List of API Models
 //   static List<ShowApiModel> fromEntityList(List<ShowEntity> entities) =>
 //       entities.map((entity) => fromEntity(entity)).toList();
 
@@ -92,27 +92,27 @@ class ShowApiModel extends Equatable {
     this.hallId,
   });
 
-  /// ✅ Convert API JSON to `ShowApiModel`
- factory ShowApiModel.fromJson(Map<String, dynamic> json) {
-  return ShowApiModel(
-    showId: json['_id'] as String?,
-    start_time: json['start_time'] as String? ?? "Unknown",
-    end_time: json['end_time'] as String? ?? "Unknown",
-    date: json['date'] as String? ?? "Unknown",
+  /// Convert API JSON to `ShowApiModel`
+  factory ShowApiModel.fromJson(Map<String, dynamic> json) {
+    return ShowApiModel(
+      showId: json['_id'] as String?,
+      start_time: json['start_time'] as String? ?? "Unknown",
+      end_time: json['end_time'] as String? ?? "Unknown",
+      date: json['date'] as String? ?? "Unknown",
 
-    /// ✅ Fix: Handle both String and Map for `movieId`
-    movieId: json['movieId'] is String
-        ? MovieApiModel.empty() // If it's a string, return an empty model
-        : MovieApiModel.fromJson(json['movieId'] as Map<String, dynamic>),
+      /// Fix: Handle both String and Map for `movieId`
+      movieId: json['movieId'] is String
+          ? MovieApiModel.empty() // If it's a string, return an empty model
+          : MovieApiModel.fromJson(json['movieId'] as Map<String, dynamic>),
 
-    /// ✅ Fix: Handle both String and Map for `hallId`
-    hallId: json['hallId'] is String
-        ? HallApiModel.empty() // If it's a string, return an empty model
-        : HallApiModel.fromJson(json['hallId'] as Map<String, dynamic>),
-  );
-}
+      /// Fix: Handle both String and Map for `hallId`
+      hallId: json['hallId'] is String
+          ? HallApiModel.empty() // If it's a string, return an empty model
+          : HallApiModel.fromJson(json['hallId'] as Map<String, dynamic>),
+    );
+  }
 
- /// ✅ Provide an empty instance
+  /// Provide an empty instance
   static ShowApiModel empty() {
     return ShowApiModel(
       showId: '',
@@ -120,38 +120,43 @@ class ShowApiModel extends Equatable {
       end_time: '',
       date: '',
       movieId: MovieApiModel.empty(), // Also needs an empty method
-      hallId: HallApiModel.empty(),   // Also needs an empty method
+      hallId: HallApiModel.empty(), // Also needs an empty method
     );
   }
 
-  /// ✅ Convert `ShowApiModel` to JSON
+  /// Convert `ShowApiModel` to JSON
   Map<String, dynamic> toJson() => _$ShowApiModelToJson(this);
 
-  /// ✅ Convert `ShowApiModel` to Domain Entity (`ShowEntity`)
+  /// Convert `ShowApiModel` to Domain Entity (`ShowEntity`)
   ShowEntity toEntity() => ShowEntity(
         showId: showId,
         start_time: start_time,
         end_time: end_time,
         date: date,
-        movie: movieId?.toEntity() ?? MovieApiModel.empty().toEntity(), // ✅ Handles null
-        hall: hallId?.toEntity() ?? HallApiModel.empty().toEntity(), // ✅ Handles null
+        movie: movieId?.toEntity() ??
+            MovieApiModel.empty().toEntity(), // Handles null
+        hall: hallId?.toEntity() ??
+            HallApiModel.empty().toEntity(), // Handles null
       );
 
-  /// ✅ Convert `ShowEntity` to `ShowApiModel`
+  /// Convert `ShowEntity` to `ShowApiModel`
   static ShowApiModel fromEntity(ShowEntity entity) => ShowApiModel(
         showId: entity.showId,
         start_time: entity.start_time,
         end_time: entity.end_time,
         date: entity.date,
-        movieId: entity.movie != null ? MovieApiModel.fromEntity(entity.movie) : null,
-        hallId: entity.hall != null ? HallApiModel.fromEntity(entity.hall) : null,
+        movieId: entity.movie != null
+            ? MovieApiModel.fromEntity(entity.movie)
+            : null,
+        hallId:
+            entity.hall != null ? HallApiModel.fromEntity(entity.hall) : null,
       );
 
-  /// ✅ Convert List of API Models to List of Entities
+  /// Convert List of API Models to List of Entities
   static List<ShowEntity> toEntityList(List<ShowApiModel> models) =>
       models.map((model) => model.toEntity()).toList();
 
-  /// ✅ Convert List of Entities to List of API Models
+  /// Convert List of Entities to List of API Models
   static List<ShowApiModel> fromEntityList(List<ShowEntity> entities) =>
       entities.map((entity) => fromEntity(entity)).toList();
 

@@ -1,8 +1,8 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:movie_ticket_booking/features/hall/data/model/hall_api_model.dart';
-import 'package:movie_ticket_booking/features/show/data/model/show_api_model.dart';
 import 'package:movie_ticket_booking/features/seat/domain/entity/seat_entity.dart';
+import 'package:movie_ticket_booking/features/show/data/model/show_api_model.dart';
 
 part 'seat_api_model.g.dart';
 
@@ -27,12 +27,12 @@ class SeatApiModel extends Equatable {
     this.seatStatus,
   });
 
-  /// ✅ Provide an empty instance
+  /// Provide an empty instance
   static SeatApiModel empty() {
     return SeatApiModel(
       seatId: '',
-      hallId: HallApiModel.empty(),  // ✅ Handles missing Hall data
-      showtimeId: ShowApiModel.empty(),  // ✅ Handles missing Show data
+      hallId: HallApiModel.empty(), // Handles missing Hall data
+      showtimeId: ShowApiModel.empty(), // Handles missing Show data
       seatColumn: 0,
       seatRow: 0,
       seatName: '',
@@ -40,7 +40,7 @@ class SeatApiModel extends Equatable {
     );
   }
 
-  /// ✅ Convert API JSON to `SeatApiModel`
+  /// Convert API JSON to `SeatApiModel`
   factory SeatApiModel.fromJson(Map<String, dynamic> json) {
     return SeatApiModel(
       seatId: json['_id'] as String?,
@@ -57,10 +57,10 @@ class SeatApiModel extends Equatable {
     );
   }
 
-  /// ✅ Convert `SeatApiModel` to JSON
+  /// Convert `SeatApiModel` to JSON
   Map<String, dynamic> toJson() => _$SeatApiModelToJson(this);
 
-  /// ✅ Convert `SeatApiModel` to Domain Entity (`SeatEntity`)
+  /// Convert `SeatApiModel` to Domain Entity (`SeatEntity`)
   SeatEntity toEntity() => SeatEntity(
         seatId: seatId,
         hallId: hallId.toEntity(),
@@ -71,7 +71,7 @@ class SeatApiModel extends Equatable {
         seatStatus: seatStatus,
       );
 
-  /// ✅ Convert `SeatEntity` to `SeatApiModel`
+  /// Convert `SeatEntity` to `SeatApiModel`
   static SeatApiModel fromEntity(SeatEntity entity) => SeatApiModel(
         seatId: entity.seatId,
         hallId: HallApiModel.fromEntity(entity.hallId),
@@ -82,11 +82,11 @@ class SeatApiModel extends Equatable {
         seatStatus: entity.seatStatus,
       );
 
-  /// ✅ Convert List of API Models to List of Entities
+  /// Convert List of API Models to List of Entities
   static List<SeatEntity> toEntityList(List<SeatApiModel> models) =>
       models.map((model) => model.toEntity()).toList();
 
-  /// ✅ Convert List of Entities to List of API Models
+  /// Convert List of Entities to List of API Models
   static List<SeatApiModel> fromEntityList(List<SeatEntity> entities) =>
       entities.map((entity) => fromEntity(entity)).toList();
 

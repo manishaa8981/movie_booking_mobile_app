@@ -151,7 +151,7 @@ class _ShowViewState extends State<ShowView> {
       return;
     }
 
-    // ✅ Ensure Hall ID and other details are not null
+    // Ensure Hall ID and other details are not null
     final hallId = selectedShow!.hall.hallId ?? "";
     final hallName = selectedShow!.hall.hall_name ?? "Unknown Hall";
     final price = selectedShow!.hall.price ?? 0;

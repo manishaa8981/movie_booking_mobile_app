@@ -84,7 +84,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
           elevation: 0,
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios,
-                color: Colors.white), // ✅ Back Button White
+                color: Colors.white), // Back Button White
             onPressed: () => Navigator.pop(context),
           ),
           title: const Text('Details Screen'),
@@ -224,7 +224,7 @@ class _MovieDetailViewState extends State<MovieDetailView> {
               ],
             ),
 
-            // ✅ YouTube Player Overlay with Improved Close Button Position
+            // YouTube Player Overlay with Improved Close Button Position
             if (_isPlayingTrailer && _youtubeController != null)
               Positioned.fill(
                 child: Container(
@@ -235,12 +235,12 @@ class _MovieDetailViewState extends State<MovieDetailView> {
                         child: YoutubePlayer(controller: _youtubeController!),
                       ),
                       Positioned(
-                        top: 40, // ✅ Shifted Down for Better Visibility
+                        top: 40, // Shifted Down for Better Visibility
                         right: 20,
                         child: IconButton(
                           icon: const Icon(Icons.close,
                               color: Colors.white,
-                              size: 32), // ✅ White Close Icon
+                              size: 32), // White Close Icon
                           onPressed: _closeTrailer,
                         ),
                       ),

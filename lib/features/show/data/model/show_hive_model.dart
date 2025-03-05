@@ -22,10 +22,10 @@ class ShowHiveModel extends Equatable {
   final String date;
 
   @HiveField(4)
-  final MovieHiveModel movie; // ✅ Single Movie, not a List
+  final MovieHiveModel movie; // Single Movie, not a List
 
   @HiveField(5)
-  final HallHiveModel hall; // ✅ Single Hall, not a List
+  final HallHiveModel hall; // Single Hall, not a List
 
   const ShowHiveModel({
     required this.showId,
@@ -36,7 +36,7 @@ class ShowHiveModel extends Equatable {
     required this.hall,
   });
 
-  /// ✅ Convert API JSON to Hive Model
+  /// Convert API JSON to Hive Model
   factory ShowHiveModel.fromJson(Map<String, dynamic> json) {
     return ShowHiveModel(
       showId: json['_id'] ?? '',
@@ -48,7 +48,7 @@ class ShowHiveModel extends Equatable {
     );
   }
 
-  /// ✅ Convert Hive Model to API JSON
+  /// Convert Hive Model to API JSON
   Map<String, dynamic> toJson() {
     return {
       '_id': showId,
@@ -60,7 +60,7 @@ class ShowHiveModel extends Equatable {
     };
   }
 
-  /// ✅ Convert Hive Model to Domain Entity
+  /// Convert Hive Model to Domain Entity
   ShowEntity toEntity() {
     return ShowEntity(
       showId: showId,
@@ -72,7 +72,7 @@ class ShowHiveModel extends Equatable {
     );
   }
 
-  /// ✅ Convert Domain Entity to Hive Model
+  /// Convert Domain Entity to Hive Model
   static ShowHiveModel fromEntity(ShowEntity entity) {
     return ShowHiveModel(
       showId: entity.showId ?? '',

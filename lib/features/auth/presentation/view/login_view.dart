@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_ticket_booking/features/auth/presentation/view/forgot_password_view.dart';
 import 'package:movie_ticket_booking/features/auth/presentation/view/sign_up_view.dart';
+
 import '../view_model/login/login_bloc.dart';
 
 class LoginView extends StatefulWidget {
@@ -79,7 +81,7 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                   ),
-                  const SizedBox(height:15),
+                  const SizedBox(height: 15),
                   const Center(
                     child: Text(
                       'Please sign in to continue booking your favorite movies.',
@@ -142,19 +144,21 @@ class _LoginViewState extends State<LoginView> {
                       prefixIcon: const Icon(Icons.lock_outline),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
+                          _isPasswordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off,
                           color: Colors.black,
                         ),
                         onPressed: () {
                           setState(() {
-                            _isPasswordVisible = !_isPasswordVisible; // Toggle visibility
+                            _isPasswordVisible =
+                                !_isPasswordVisible; // Toggle visibility
                           });
                         },
                       ),
                     ),
                     validator: _validatePassword,
                   ),
-
                   _gap,
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -180,8 +184,12 @@ class _LoginViewState extends State<LoginView> {
                       ),
                       TextButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/forgotpassword');
-
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const ForgotPasswordView(),
+                            ),
+                          );
                           // showDialog(
                           //   context: context,
                           //   builder: (context) => AlertDialog(
@@ -217,7 +225,7 @@ class _LoginViewState extends State<LoginView> {
                       onPressed: () {
                         if (_formKey.currentState!.validate()) {
                           context.read<LoginBloc>().add(
-                            LoginUserEvent(
+                                LoginUserEvent(
                                   context: context,
                                   username: _usernameController.text,
                                   password: _passwordController.text,
@@ -245,9 +253,7 @@ class _LoginViewState extends State<LoginView> {
                           fontFamily: "Poppins",
                           fontWeight: FontWeight.bold,
                         ),
-
                       ),
-                      
                     ),
                   ),
                   const SizedBox(height: 20),

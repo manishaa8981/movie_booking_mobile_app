@@ -15,7 +15,7 @@ class ShowBloc extends Bloc<ShowEvent, ShowState> {
   })  : _getAllShowUseCase = getAllShowUseCase,
         super(ShowState.initial()) {
     on<LoadShows>(_onLoadShows);
-    on<SelectHall>(_onSelectHall); // ✅ Register event handler
+    on<SelectHall>(_onSelectHall); // Register event handler
     on<SelectTime>(_onSelectTime); // New
   }
 
@@ -35,7 +35,7 @@ class ShowBloc extends Bloc<ShowEvent, ShowState> {
   }
 
   void _onSelectHall(SelectHall event, Emitter<ShowState> emit) {
-    print("Event received: Selected Hall -> ${event.hallName}"); // ✅ Debugging
+    print("Event received: Selected Hall -> ${event.hallName}"); // Debugging
     emit(state.copyWith(selectedHall: event.hallName, selectedTime: null));
   }
 

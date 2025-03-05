@@ -22,7 +22,7 @@ void main() async {
   runApp(
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => ThemeCubit()), // ✅ Theme Management
+        BlocProvider(create: (_) => ThemeCubit()), // Theme Management
       ],
       child: const App(),
     ),

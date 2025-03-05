@@ -17,20 +17,18 @@ class GetAllShowsDto {
       print("✅ INSIDE FROM JSON:::: $json");
 
       try {
-        // ✅ Remove nulls & filter invalid entries
+        // Remove nulls & filter invalid entries
         List<ShowApiModel> parsedData = json
-            .where((e) =>
-                e != null && e is Map<String, dynamic>) 
+            .where((e) => e != null && e is Map<String, dynamic>)
             .map((e) {
               try {
                 return ShowApiModel.fromJson(e as Map<String, dynamic>);
               } catch (error) {
                 print(" Skipping invalid entry: $e - Error: $error");
-                return null; // ✅ Skip invalid items instead of crashing
+                return null; // Skip invalid items instead of crashing
               }
             })
-            .whereType<
-                ShowApiModel>()
+            .whereType<ShowApiModel>()
             .toList();
 
         return GetAllShowsDto(data: parsedData);

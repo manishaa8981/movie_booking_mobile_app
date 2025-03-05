@@ -28,7 +28,7 @@ class HallApiModel extends Equatable {
     required this.seats,
   });
 
-  /// ✅ Factory method for an empty `HallApiModel`
+  /// Factory method for an empty `HallApiModel`
   factory HallApiModel.empty() => const HallApiModel(
         hallId: "N/A",
         hall_name: "Unknown Hall",
@@ -38,36 +38,35 @@ class HallApiModel extends Equatable {
         seats: [],
       );
 
-factory HallApiModel.fromJson(Map<String, dynamic> json) {
-  return HallApiModel(
-    hallId: json['_id'] as String?,
-    hall_name: json['hall_name'] as String? ?? "Unknown Hall",
-    price: json['price'] as int? ?? 0,
-    capacity: json['capacity'] as int? ?? 0,
+  factory HallApiModel.fromJson(Map<String, dynamic> json) {
+    return HallApiModel(
+      hallId: json['_id'] as String?,
+      hall_name: json['hall_name'] as String? ?? "Unknown Hall",
+      price: json['price'] as int? ?? 0,
+      capacity: json['capacity'] as int? ?? 0,
 
-    /// ✅ Fix: Handle both String and Map for `showtimes`
-    shows: (json['showtimes'] as List<dynamic>?)
-            ?.map((e) => e is String
-                ? ShowApiModel.empty() // If it's a string, use an empty model
-                : ShowApiModel.fromJson(e as Map<String, dynamic>))
-            .toList() ??
-        [],
+      /// Fix: Handle both String and Map for `showtimes`
+      shows: (json['showtimes'] as List<dynamic>?)
+              ?.map((e) => e is String
+                  ? ShowApiModel.empty() // If it's a string, use an empty model
+                  : ShowApiModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
 
-    /// ✅ Fix: Handle both String and Map for seats
-    seats: (json['seats'] as List<dynamic>?)
-            ?.map((e) => e is String
-                ? SeatApiModel.empty() // If it's a string, use an empty model
-                : SeatApiModel.fromJson(e as Map<String, dynamic>))
-            .toList() ??
-        [],
-  );
-}
+      /// Fix: Handle both String and Map for seats
+      seats: (json['seats'] as List<dynamic>?)
+              ?.map((e) => e is String
+                  ? SeatApiModel.empty() // If it's a string, use an empty model
+                  : SeatApiModel.fromJson(e as Map<String, dynamic>))
+              .toList() ??
+          [],
+    );
+  }
 
-
-  /// ✅ Convert `HallApiModel` to JSON
+  /// Convert `HallApiModel` to JSON
   Map<String, dynamic> toJson() => _$HallApiModelToJson(this);
 
-  /// ✅ Convert `HallApiModel` to Domain Entity (`HallEntity`)
+  /// Convert `HallApiModel` to Domain Entity (`HallEntity`)
   HallEntity toEntity() => HallEntity(
         hallId: hallId,
         hall_name: hall_name,
@@ -77,7 +76,7 @@ factory HallApiModel.fromJson(Map<String, dynamic> json) {
         seats: seats.map((seat) => seat.toEntity()).toList(),
       );
 
-  /// ✅ Convert `HallEntity` to `HallApiModel`
+  /// Convert `HallEntity` to `HallApiModel`
   static HallApiModel fromEntity(HallEntity entity) => HallApiModel(
         hallId: entity.hallId,
         hall_name: entity.hall_name,
@@ -89,11 +88,11 @@ factory HallApiModel.fromJson(Map<String, dynamic> json) {
             entity.seats.map((seat) => SeatApiModel.fromEntity(seat)).toList(),
       );
 
-  /// ✅ Convert List of API Models to List of Entities
+  /// Convert List of API Models to List of Entities
   static List<HallEntity> toEntityList(List<HallApiModel> models) =>
       models.map((model) => model.toEntity()).toList();
 
-  /// ✅ Convert List of Entities to List of API Models
+  /// Convert List of Entities to List of API Models
   static List<HallApiModel> fromEntityList(List<HallEntity> entities) =>
       entities.map((entity) => fromEntity(entity)).toList();
 

@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_ticket_booking/app/di/di.dart';
 import 'package:movie_ticket_booking/features/auth/presentation/view_model/profile/profile_bloc.dart';
+import 'package:movie_ticket_booking/features/booking/presentation/view/booking_view.dart';
+import 'package:movie_ticket_booking/features/booking/presentation/view_model/booking_bloc.dart';
 import 'package:movie_ticket_booking/features/dashboard/presentation/view/movie_view.dart';
 import 'package:movie_ticket_booking/features/dashboard/presentation/view_model/movie_bloc.dart';
 import 'package:movie_ticket_booking/features/home/presentation/view/bottom_view/profile.dart';
@@ -25,8 +27,9 @@ class HomeState extends Equatable {
           create: (context) => getIt<MovieBloc>(),
           child: MovieView(),
         ),
-        const Center(
-          child: Text('Movies'),
+        BlocProvider(
+          create: (context) => getIt<BookingBloc>(),
+          child: BookingsView(),
         ),
         BlocProvider(
           create: (context) => getIt<ProfileBloc>(),

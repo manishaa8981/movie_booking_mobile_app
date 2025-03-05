@@ -8,7 +8,7 @@ part of 'seat_hive_model.dart';
 
 class SeatHiveModelAdapter extends TypeAdapter<SeatHiveModel> {
   @override
-  final int typeId = 1;
+  final int typeId = 3;
 
   @override
   SeatHiveModel read(BinaryReader reader) {

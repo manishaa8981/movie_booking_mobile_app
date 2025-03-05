@@ -23,8 +23,16 @@ class MovieLocalDatasource implements IMovieDataSource{
   }
 
   @override
-  Future<MovieEntity> getMovieDetails(String movieId) {
-    // TODO: implement getMovieDetails
-    throw UnimplementedError();
+  Future<MovieEntity> getMovieDetails(String movieId) async{
+    try {
+      final movieHiveModel = await _hiveService.getMovieDetails(movieId);
+      if (movieHiveModel != null) {
+        return movieHiveModel.toEntity();
+      } else {
+        throw Exception('Movie not found');
+      }
+    } catch (e) {
+      throw Exception('Error fetching movie by ID: $e');
+    }
   }
 }

@@ -65,7 +65,7 @@ class GetUserByIdUsecase implements UsecaseWithParams<void, GetUserByIdParams> {
       (authId) => tokenResult.fold(
         (failure) => Left(failure), // Return failure if `token` is missing
         (token) {
-          // ✅ Call the API with customerId & token
+          // Call the API with customerId & token
           return repository.getUserById(authId);
         },
       ),

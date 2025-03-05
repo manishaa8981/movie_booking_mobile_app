@@ -7,7 +7,7 @@ abstract class ProfileEvent extends Equatable {
   List<Object?> get props => [];
 }
 
-// ✅ Fetch User Data
+// Fetch User Data
 class FetchUserById extends ProfileEvent {
   final String authId;
 
@@ -17,7 +17,7 @@ class FetchUserById extends ProfileEvent {
   List<Object?> get props => [authId];
 }
 
-// ✅ Upload Image
+// Upload Image
 class LoadImage extends ProfileEvent {
   final File file;
 

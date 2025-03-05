@@ -15,6 +15,11 @@ import 'package:movie_ticket_booking/features/auth/domain/use_case/upload_image_
 import 'package:movie_ticket_booking/features/auth/presentation/view_model/login/login_bloc.dart';
 import 'package:movie_ticket_booking/features/auth/presentation/view_model/profile/profile_bloc.dart';
 import 'package:movie_ticket_booking/features/auth/presentation/view_model/signup/register_bloc.dart';
+import 'package:movie_ticket_booking/features/booking/data/datasource/remote_datasource/booking_remote_datasource.dart';
+import 'package:movie_ticket_booking/features/booking/data/repository/booking_remote_repository.dart';
+import 'package:movie_ticket_booking/features/booking/domain/usecase/create_booking_usecase.dart';
+import 'package:movie_ticket_booking/features/booking/domain/usecase/get_bookings_usecase.dart';
+import 'package:movie_ticket_booking/features/booking/presentation/view_model/booking_bloc.dart';
 import 'package:movie_ticket_booking/features/dashboard/data/data_source/remote_datasource/movie_remote_datasource.dart';
 import 'package:movie_ticket_booking/features/dashboard/data/repository/movie_remote_repository.dart';
 import 'package:movie_ticket_booking/features/dashboard/domain/use_case/get_all_movies_usecase.dart';
@@ -44,6 +49,7 @@ Future<void> initDependencies() async {
   await _initApiService();
   await _initSharedPreferences();
   await _initSeatDependencies();
+  await _initBookingDependencies();
   await _initHallDependencies();
   _initShowDependencies();
   _initMovieDependencies();
@@ -298,6 +304,42 @@ _initSeatDependencies() {
   getIt.registerFactory<SeatBloc>(
     () => SeatBloc(
       getIt<GetAllSeatUsecase>(),
+    ),
+  );
+}
+
+// ============================= Booking ============================
+
+_initBookingDependencies() {
+  //DataSource
+  getIt.registerLazySingleton<BookingRemoteDatasource>(
+    () => BookingRemoteDatasource(getIt<Dio>()),
+  );
+
+  //Repository
+  getIt.registerLazySingleton<BookingRemoteRepository>(
+    () => BookingRemoteRepository(
+      getIt<BookingRemoteDatasource>(),
+    ),
+  );
+
+  //Usecase
+  getIt.registerLazySingleton<GetBookingsUseCase>(
+    () => GetBookingsUseCase(
+      repository: getIt<BookingRemoteRepository>(),
+    ),
+  );
+  getIt.registerLazySingleton<CreateBookingUseCase>(
+    () => CreateBookingUseCase(
+      repository: getIt<BookingRemoteRepository>(),
+    ),
+  );
+  //Bloc
+  getIt.registerFactory<BookingBloc>(
+    () => BookingBloc(
+      getBookingUseCase: getIt<GetBookingsUseCase>(),
+      createBookingUseCase: getIt<CreateBookingUseCase>(),
+      userSharedPrefs: getIt<UserSharedPrefs>(),
     ),
   );
 }
