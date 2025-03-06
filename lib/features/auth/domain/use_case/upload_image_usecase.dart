@@ -13,8 +13,9 @@ class UploadImageParams {
   });
 }
 
-class UploadImageUsecase implements UsecaseWithParams<String , UploadImageParams>{
-    final IAuthRepository _repository;
+class UploadImageUsecase
+    implements UsecaseWithParams<String, UploadImageParams> {
+  final IAuthRepository _repository;
 
   UploadImageUsecase(this._repository);
 

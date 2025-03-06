@@ -22,10 +22,10 @@ class HallEntity extends Equatable {
   const HallEntity.empty()
       : hallId = '_empty.hallId',
         hall_name = '_empty.hall_name',
-        price = 0, // Defaulting to 0 as it's an int
-        capacity = 0, // Defaulting to 0 as it's an int
-        shows = const [], // Empty list of ShowEntity
-        seats = const []; // Empty list of SeatEntity
+        price = 0, 
+        capacity = 0, 
+        shows = const [], 
+        seats = const []; 
 
   @override
   List<Object?> get props => [hallId, hall_name, price, capacity, shows, seats];

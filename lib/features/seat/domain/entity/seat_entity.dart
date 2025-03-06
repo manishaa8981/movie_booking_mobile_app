@@ -4,8 +4,8 @@ import 'package:movie_ticket_booking/features/show/domain/entity/show_entity.dar
 
 class SeatEntity extends Equatable {
   final String? seatId;
-  final HallEntity hall;
-  final ShowEntity show;
+  final HallEntity hallId;
+  final ShowEntity showtimeId;
   final int? seatColumn;
   final int? seatRow;
   final String? seatName;
@@ -13,8 +13,8 @@ class SeatEntity extends Equatable {
 
   const SeatEntity({
     this.seatId,
-    required this.hall,
-    required this.show,
+    required this.hallId,
+    required this.showtimeId,
     this.seatColumn,
     this.seatRow,
     this.seatName,
@@ -24,8 +24,8 @@ class SeatEntity extends Equatable {
   // Empty constructor for testing purposes
   const SeatEntity.empty()
       : seatId = '_empty.seatId',
-        hall = const HallEntity.empty(),
-        show = const ShowEntity.empty(),
+        hallId = const HallEntity.empty(),
+        showtimeId = const ShowEntity.empty(),
         seatColumn = 0,
         seatRow = 0,
         seatName = '_empty.seatName',
@@ -34,8 +34,8 @@ class SeatEntity extends Equatable {
   @override
   List<Object?> get props => [
         seatId,
-        hall,
-        show,
+        hallId,
+        showtimeId,
         seatColumn,
         seatRow,
         seatName,

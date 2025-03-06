@@ -2,8 +2,12 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_ticket_booking/app/di/di.dart';
-import 'package:movie_ticket_booking/features/auth/presentation/view/login_view.dart';
-import 'package:movie_ticket_booking/features/auth/presentation/view_model/login/login_bloc.dart';
+import 'package:movie_ticket_booking/features/auth/presentation/view_model/profile/profile_bloc.dart';
+import 'package:movie_ticket_booking/features/booking/presentation/view/booking_view.dart';
+import 'package:movie_ticket_booking/features/booking/presentation/view_model/booking_bloc.dart';
+import 'package:movie_ticket_booking/features/dashboard/presentation/view/movie_view.dart';
+import 'package:movie_ticket_booking/features/dashboard/presentation/view_model/movie_bloc.dart';
+import 'package:movie_ticket_booking/features/home/presentation/view/bottom_view/profile.dart';
 
 class HomeState extends Equatable {
   final int selectedIndex;
@@ -19,23 +23,17 @@ class HomeState extends Equatable {
     return HomeState(
       selectedIndex: 0,
       views: [
-        const Center(
-          child: Text('Dashboard'),
-        ),
-        // BlocProvider(
-        //   create: (context) => getIt<DashboardBloc>(),
-        //   child: const DashbaordView(),
-
-        // ),
-        const Center(
-          child: Text('Course'),
+        BlocProvider(
+          create: (context) => getIt<MovieBloc>(),
+          child: MovieView(),
         ),
         BlocProvider(
-          create: (context) => getIt<LoginBloc>(),
-          child: const LoginView(),
+          create: (context) => getIt<BookingBloc>(),
+          child: BookingView(),
         ),
-        const Center(
-          child: Text('Account'),
+        BlocProvider(
+          create: (context) => getIt<ProfileBloc>(),
+          child: ProfileView(),
         ),
       ],
     );
