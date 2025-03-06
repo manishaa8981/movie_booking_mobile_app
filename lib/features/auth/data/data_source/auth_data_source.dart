@@ -11,4 +11,10 @@ abstract interface class IAuthDataSource {
   Future<AuthEntity> getCurrentUser();
 
   Future<String> uploadProfilePicture(File file);
+
+  Future<AuthEntity> getUserById(String id);
+
+  Future<void> updateUser(
+      String id, String token, Map<String, dynamic> userData);
+
 }

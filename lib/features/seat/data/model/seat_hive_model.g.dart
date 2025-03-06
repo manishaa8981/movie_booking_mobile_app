@@ -8,7 +8,7 @@ part of 'seat_hive_model.dart';
 
 class SeatHiveModelAdapter extends TypeAdapter<SeatHiveModel> {
   @override
-  final int typeId = 1;
+  final int typeId = 3;
 
   @override
   SeatHiveModel read(BinaryReader reader) {
@@ -18,8 +18,8 @@ class SeatHiveModelAdapter extends TypeAdapter<SeatHiveModel> {
     };
     return SeatHiveModel(
       seatId: fields[0] as String,
-      hall: fields[1] as HallHiveModel,
-      show: fields[2] as ShowHiveModel,
+      hallId: fields[1] as HallHiveModel,
+      showtimeId: fields[2] as ShowHiveModel,
       seatColumn: fields[3] as int,
       seatRow: fields[4] as int,
       seatName: fields[5] as String,
@@ -34,9 +34,9 @@ class SeatHiveModelAdapter extends TypeAdapter<SeatHiveModel> {
       ..writeByte(0)
       ..write(obj.seatId)
       ..writeByte(1)
-      ..write(obj.hall)
+      ..write(obj.hallId)
       ..writeByte(2)
-      ..write(obj.show)
+      ..write(obj.showtimeId)
       ..writeByte(3)
       ..write(obj.seatColumn)
       ..writeByte(4)

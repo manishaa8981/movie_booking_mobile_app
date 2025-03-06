@@ -30,4 +30,6 @@ class ShowEntity extends Equatable {
 
   @override
   List<Object?> get props => [showId, start_time, end_time, movie, hall];
+
+  static fromJson(Map<String, dynamic> json) {}
 }

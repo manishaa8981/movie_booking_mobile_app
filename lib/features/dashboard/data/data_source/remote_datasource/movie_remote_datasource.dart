@@ -21,7 +21,8 @@ class MovieRemoteDatasource implements IMovieDataSource {
         throw Exception("Failed to fetch movies: ${response.statusMessage}");
       }
     } on DioException catch (e) {
-      throw Exception(e.response?.statusMessage ?? e.message ?? "Unknown Dio error");
+      throw Exception(
+          e.response?.statusMessage ?? e.message ?? "Unknown Dio error");
     } catch (e) {
       throw Exception("Unexpected error: ${e.toString()}");
     }
@@ -35,10 +36,12 @@ class MovieRemoteDatasource implements IMovieDataSource {
         MovieApiModel movieApiModel = MovieApiModel.fromJson(response.data);
         return movieApiModel.toEntity();
       } else {
-        throw Exception("Failed to fetch movie details: ${response.statusMessage}");
+        throw Exception(
+            "Failed to fetch movie details: ${response.statusMessage}");
       }
     } on DioException catch (e) {
-      throw Exception(e.response?.statusMessage ?? e.message ?? "Unknown Dio error");
+      throw Exception(
+          e.response?.statusMessage ?? e.message ?? "Unknown Dio error");
     } catch (e) {
       throw Exception("Unexpected error: ${e.toString()}");
     }

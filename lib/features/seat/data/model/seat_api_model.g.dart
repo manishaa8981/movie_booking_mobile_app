@@ -8,19 +8,20 @@ part of 'seat_api_model.dart';
 
 SeatApiModel _$SeatApiModelFromJson(Map<String, dynamic> json) => SeatApiModel(
       seatId: json['_id'] as String?,
-      hall: HallApiModel.fromJson(json['hall'] as Map<String, dynamic>),
-      show: ShowApiModel.fromJson(json['show'] as Map<String, dynamic>),
-      seatColumn: (json['seatColumn'] as num).toInt(),
-      seatRow: (json['seatRow'] as num).toInt(),
-      seatName: json['seatName'] as String,
-      seatStatus: json['seatStatus'] as bool,
+      hallId: HallApiModel.fromJson(json['hallId'] as Map<String, dynamic>),
+      showtimeId:
+          ShowApiModel.fromJson(json['showtimeId'] as Map<String, dynamic>),
+      seatColumn: (json['seatColumn'] as num?)?.toInt(),
+      seatRow: (json['seatRow'] as num?)?.toInt(),
+      seatName: json['seatName'] as String?,
+      seatStatus: json['seatStatus'] as bool?,
     );
 
 Map<String, dynamic> _$SeatApiModelToJson(SeatApiModel instance) =>
     <String, dynamic>{
       '_id': instance.seatId,
-      'hall': instance.hall,
-      'show': instance.show,
+      'hallId': instance.hallId,
+      'showtimeId': instance.showtimeId,
       'seatColumn': instance.seatColumn,
       'seatRow': instance.seatRow,
       'seatName': instance.seatName,

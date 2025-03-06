@@ -83,4 +83,29 @@ class AuthRemoteDatasource implements IAuthDataSource {
       throw Exception(e);
     }
   }
+
+  @override
+  Future<AuthEntity> getUserById(String id) async {
+    try {
+      var response = await _dio.get('${ApiEndpoints.getUserById}$id');
+      if (response.statusCode == 200) {
+        var data = response.data;
+        var user = AuthApiModel.fromJson(data).toEntity();
+        return user;
+      } else {
+        throw Exception(response.statusMessage);
+      }
+    } on DioException catch (e) {
+      throw Exception('Network error: ${e.message}');
+    } catch (e) {
+      throw Exception('Unexpected error: $e');
+    }
+  }
+
+  @override
+  Future<void> updateUser(
+      String id, String token, Map<String, dynamic> userData) {
+    // TODO: implement updateUser
+    throw UnimplementedError();
+  }
 }

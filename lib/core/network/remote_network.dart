@@ -1,1 +1,3 @@
-class RemoteNetwork {}
+class RemoteNetwork {
+  
+}

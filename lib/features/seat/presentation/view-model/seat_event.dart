@@ -1,11 +1,17 @@
 part of 'seat_bloc.dart';
 
-@immutable
 sealed class SeatEvent extends Equatable {
   const SeatEvent();
 
   @override
-  List<Object> get props => [];
+  List<Object?> get props => [];
 }
 
-final class LoadSeats extends SeatEvent {}
+class LoadSeats extends SeatEvent {
+  final String hallId;
+
+  const LoadSeats({required this.hallId});
+
+  @override
+  List<Object?> get props => [hallId];
+}

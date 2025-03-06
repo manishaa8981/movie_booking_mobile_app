@@ -22,7 +22,7 @@ class _SignUpViewState extends State<SignUpView> {
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
 
-// we are taking permission from user to open camera or not
+  /// Request permission for camera
   Future<void> checkCameraPermission() async {
     if (await Permission.camera.request().isRestricted ||
         await Permission.camera.request().isDenied) {
@@ -31,19 +31,18 @@ class _SignUpViewState extends State<SignUpView> {
   }
 
   File? _img;
-  Future _browseImage(ImageSource imageSource) async {
+
+  Future<void> _browseImage(ImageSource imageSource) async {
     try {
       final image = await ImagePicker().pickImage(source: imageSource);
       if (image != null) {
         setState(() {
           _img = File(image.path);
-          // send iamge to server
+          // Send image to the server
           context.read<RegisterBloc>().add(
                 LoadImage(file: _img!),
               );
         });
-      } else {
-        return;
       }
     } catch (e) {
       debugPrint(e.toString());
@@ -59,42 +58,12 @@ class _SignUpViewState extends State<SignUpView> {
     super.dispose();
   }
 
-  String? _validateUsername(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Username is required';
-    }
-    return null;
-  }
-
-  String? _validateEmail(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Email is required';
-    } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+').hasMatch(value)) {
-      return 'Enter a valid email address';
-    }
-    return null;
-  }
-
-  String? _validateContact(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Phone number is required';
-    } else if (!RegExp(r'^\d{10}$').hasMatch(value)) {
-      return 'Enter a valid 10-digit phone number';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Password is required';
-    } else if (value.length < 6) {
-      return 'Password must be at least 6 characters long';
-    }
-    return null;
-  }
-
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -105,130 +74,109 @@ class _SignUpViewState extends State<SignUpView> {
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        decoration: const BoxDecoration(
-          // color: Color.fromARGB(255, 3, 21, 87),
-          color: Color(0xFF111827),
-          // gradient: LinearGradient(
-          //   begin: Alignment.topLeft,
-          //   end: Alignment.bottomRight,
-          //   colors: [Color(0xFF2E1371), Color(0xFF130B2B)],
-          // ),
+        decoration: BoxDecoration(
+          color: theme.scaffoldBackgroundColor,
         ),
         child: SingleChildScrollView(
+          padding: const EdgeInsets.all(16.0),
           child: Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Padding(
-                  padding: EdgeInsets.only(top: 70),
-                  child: Center(
-                    child: Text(
-                      'Create an Account 🎥',
-                      style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.white,
-                        fontFamily: 'Poppins',
-                      ),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 5),
-                const Center(
+                const SizedBox(height: 70),
+                // Title
+                Center(
                   child: Text(
-                    '   Sign up to start booking your favorite movies.',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: Colors.grey,
-                      fontFamily: 'Poppins',
+                    'Create an Account 🎥',
+                    style: textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: colorScheme.onSurface,
                     ),
                   ),
                 ),
                 const SizedBox(height: 5),
-                InkWell(
-                  onTap: () {
-                    showModalBottomSheet(
-                      backgroundColor: Colors.grey[300],
-                      context: context,
-                      isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.vertical(
-                          top: Radius.circular(20),
-                        ),
-                      ),
-                      builder: (context) => Padding(
-                        padding: const EdgeInsets.all(20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            ElevatedButton.icon(
-                              onPressed: () {
-                                checkCameraPermission();
-                                _browseImage(ImageSource
-                                    .camera); // upload image it is not null
-                                Navigator.pop(context);
-                              },
-                              icon: const Icon(Icons.camera),
-                              label: const Text('Camera'),
-                            ),
-                            ElevatedButton.icon(
-                              onPressed: () {
-                                _browseImage(ImageSource.gallery);
-                                Navigator.pop(context);
-                                _browseImage(ImageSource.camera);
-                              },
-                              icon: const Icon(Icons.image),
-                              label: const Text('Gallery'),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                  child: Center(
-                    child: SizedBox(
-                      height: 100,
-                      width: 100,
-                      child: CircleAvatar(
-                        radius: 50,
-                        backgroundImage: _img != null
-                            ? FileImage(_img!)
-                            : const AssetImage('assets/images/image.png')
-                                as ImageProvider,
-                      ),
+                Center(
+                  child: Text(
+                    'Sign up to start booking your favorite movies.',
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: Colors.grey[600],
+                      fontSize: 12,
                     ),
                   ),
                 ),
+                const SizedBox(height: 10),
+
+                // Profile Image Upload
+                InkWell(
+                  onTap: () => _showImagePicker(context),
+                  child: Center(
+                    child: CircleAvatar(
+                      radius: 50,
+                      backgroundImage: _img != null
+                          ? FileImage(_img!)
+                          : const AssetImage('assets/images/image.png')
+                              as ImageProvider,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Username
                 _buildTextField(
                   prefixIcon: const Icon(Icons.person),
                   controller: _usernameController,
                   hintText: 'Enter your Username',
-                  validator: _validateUsername,
+                  validator: (value) =>
+                      value!.isEmpty ? 'Username is required' : null,
                 ),
+
+                // Email
                 _buildTextField(
                   prefixIcon: const Icon(Icons.email),
                   controller: _emailController,
                   hintText: 'Enter your Email',
-                  validator: _validateEmail,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Email is required';
+                    } else if (!RegExp(r'^[^@]+@[^@]+\.[^@]+')
+                        .hasMatch(value)) {
+                      return 'Enter a valid email address';
+                    }
+                    return null;
+                  },
                 ),
+
+                // Phone Number
                 _buildTextField(
                   prefixIcon: const Icon(Icons.phone),
                   controller: _contactNoController,
-                  hintText: 'Enter your Phone No.',
-                  validator: _validateContact,
+                  hintText: 'Enter your Phone Number',
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Phone number is required';
+                    } else if (!RegExp(r'^\d{10}$').hasMatch(value)) {
+                      return 'Enter a valid 10-digit phone number';
+                    }
+                    return null;
+                  },
                 ),
+
+                // Password
                 _buildTextField(
                   prefixIcon: const Icon(Icons.lock_outline),
                   controller: _passwordController,
                   hintText: 'Enter your Password',
-                  validator: _validatePassword,
                   obscureText: !_isPasswordVisible,
+                  validator: (value) => value!.length < 6
+                      ? 'Password must be at least 6 characters'
+                      : null,
                   suffixIcon: IconButton(
                     icon: Icon(
                       _isPasswordVisible
                           ? Icons.visibility
                           : Icons.visibility_off,
-                      color: Colors.black,
+                      color: Colors.grey,
                     ),
                     onPressed: () {
                       setState(() {
@@ -237,79 +185,74 @@ class _SignUpViewState extends State<SignUpView> {
                     },
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 10.0, vertical: 20.0),
-                  child: SizedBox(
-                    height: 60,
-                    width: double.infinity,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          final registerState =
-                              context.read<RegisterBloc>().state;
-                          final imageName = registerState.imageName;
-                          context.read<RegisterBloc>().add(
-                                RegisterUserEvent(
-                                  context: context,
-                                  username: _usernameController.text,
-                                  email: _emailController.text,
-                                  contactNo: _contactNoController.text,
-                                  password: _passwordController.text,
-                                  image: imageName,
-                                ),
-                              );
-                        }
-                      },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange[700],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        elevation: 5,
+
+                const SizedBox(height: 20),
+
+                // Sign Up Button
+                SizedBox(
+                  height: 55,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        final registerState =
+                            context.read<RegisterBloc>().state;
+                        final imageName = registerState.imageName;
+                        context.read<RegisterBloc>().add(
+                              RegisterUserEvent(
+                                context: context,
+                                username: _usernameController.text,
+                                email: _emailController.text,
+                                contactNo: _contactNoController.text,
+                                password: _passwordController.text,
+                                image: imageName,
+                              ),
+                            );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: colorScheme.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
                       ),
-                      child: const Text(
-                        'Sign Up',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontFamily: "Poppins",
-                          fontWeight: FontWeight.bold,
-                        ),
+                      elevation: 5,
+                    ),
+                    child: Text(
+                      'Sign Up',
+                      style: textTheme.titleMedium?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),
                 ),
+
+                const SizedBox(height: 20),
+
+                // Already have an account?
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Text(
+                    Text(
                       "Already have an account? ",
-                      style: TextStyle(
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.white,
-                        color: Colors.white,
-                        fontSize: 18,
-                      ),
+                      style: textTheme.bodyLarge
+                          ?.copyWith(color: colorScheme.onSurface),
                     ),
                     TextButton(
-                      onPressed: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => const LoginView()),
-                        );
-                      },
-                      child: const Text(
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const LoginView()),
+                      ),
+                      child: Text(
                         'Login',
-                        style: TextStyle(
+                        style: textTheme.bodyLarge?.copyWith(
+                          color: colorScheme.secondary,
+                          fontWeight: FontWeight.bold,
                           decoration: TextDecoration.underline,
-                          decorationColor: Colors.blue,
-                          color: Colors.blue,
-                          fontSize: 18,
                         ),
                       ),
-                    )
+                    ),
                   ],
                 ),
               ],
@@ -320,32 +263,67 @@ class _SignUpViewState extends State<SignUpView> {
     );
   }
 
-  Padding _buildTextField({
-    required TextEditingController controller,
-    required String hintText,
-    required String? Function(String?) validator,
-    bool obscureText = false,
-    Widget? prefixIcon,
-    Widget? suffixIcon,
-  }) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: TextFormField(
-        controller: controller,
-        obscureText: obscureText,
-        decoration: InputDecoration(
-          suffixIcon: suffixIcon,
-          prefixIcon: prefixIcon,
-          filled: true,
-          fillColor: Colors.white,
-          hintText: hintText,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10.0),
-            borderSide: BorderSide.none,
-          ),
+  /// Show Image Picker
+  void _showImagePicker(BuildContext context) {
+    showModalBottomSheet(
+      backgroundColor: Colors.grey[300],
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (context) => Padding(
+        padding: const EdgeInsets.all(20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            ElevatedButton.icon(
+              onPressed: () => _browseImage(ImageSource.camera),
+              icon: const Icon(Icons.camera),
+              label: const Text('Camera'),
+            ),
+            ElevatedButton.icon(
+              onPressed: () => _browseImage(ImageSource.gallery),
+              icon: const Icon(Icons.image),
+              label: const Text('Gallery'),
+            ),
+          ],
         ),
-        validator: validator,
       ),
     );
   }
+}
+
+Padding _buildTextField({
+  required TextEditingController controller,
+  required String hintText,
+  required String? Function(String?) validator,
+  bool obscureText = false,
+  Widget? prefixIcon,
+  Widget? suffixIcon,
+}) {
+  return Padding(
+    padding: const EdgeInsets.all(10.0),
+    child: TextFormField(
+      controller: controller,
+      obscureText: obscureText,
+      decoration: InputDecoration(
+        suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon != null
+            ? IconTheme(
+                data: const IconThemeData(
+                    color: Color.fromARGB(237, 243, 121, 28)), // Fixed Color
+                child: prefixIcon,
+              )
+            : null,
+        filled: true,
+        fillColor: const Color(0xFF1E1E1E),
+        hintText: hintText,
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Colors.grey.shade300),
+        ),
+      ),
+      validator: validator,
+    ),
+  );
 }

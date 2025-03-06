@@ -11,7 +11,7 @@ HallApiModel _$HallApiModelFromJson(Map<String, dynamic> json) => HallApiModel(
       hall_name: json['hall_name'] as String,
       price: (json['price'] as num).toInt(),
       capacity: (json['capacity'] as num).toInt(),
-      shows: (json['shows'] as List<dynamic>)
+      shows: (json['showtimes'] as List<dynamic>)
           .map((e) => ShowApiModel.fromJson(e as Map<String, dynamic>))
           .toList(),
       seats: (json['seats'] as List<dynamic>)
@@ -25,6 +25,6 @@ Map<String, dynamic> _$HallApiModelToJson(HallApiModel instance) =>
       'hall_name': instance.hall_name,
       'price': instance.price,
       'capacity': instance.capacity,
-      'shows': instance.shows,
+      'showtimes': instance.shows,
       'seats': instance.seats,
     };

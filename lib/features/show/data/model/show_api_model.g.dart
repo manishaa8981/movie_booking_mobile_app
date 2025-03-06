@@ -11,8 +11,12 @@ ShowApiModel _$ShowApiModelFromJson(Map<String, dynamic> json) => ShowApiModel(
       start_time: json['start_time'] as String,
       end_time: json['end_time'] as String,
       date: json['date'] as String,
-      movie: MovieApiModel.fromJson(json['movie'] as Map<String, dynamic>),
-      hall: HallApiModel.fromJson(json['hall'] as Map<String, dynamic>),
+      movieId: json['movieId'] == null
+          ? null
+          : MovieApiModel.fromJson(json['movieId'] as Map<String, dynamic>),
+      hallId: json['hallId'] == null
+          ? null
+          : HallApiModel.fromJson(json['hallId'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$ShowApiModelToJson(ShowApiModel instance) =>
@@ -21,6 +25,6 @@ Map<String, dynamic> _$ShowApiModelToJson(ShowApiModel instance) =>
       'start_time': instance.start_time,
       'end_time': instance.end_time,
       'date': instance.date,
-      'movie': instance.movie,
-      'hall': instance.hall,
+      'movieId': instance.movieId,
+      'hallId': instance.hallId,
     };

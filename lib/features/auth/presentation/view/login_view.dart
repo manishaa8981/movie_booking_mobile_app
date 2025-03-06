@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:movie_ticket_booking/features/auth/presentation/view/forgot_password_view.dart';
 import 'package:movie_ticket_booking/features/auth/presentation/view/sign_up_view.dart';
+
 import '../view_model/login/login_bloc.dart';
 
 class LoginView extends StatefulWidget {
@@ -15,276 +17,217 @@ class _LoginViewState extends State<LoginView> {
   final _usernameController = TextEditingController();
   final _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
-  final FocusNode _usernameFocusNode = FocusNode();
-  final FocusNode _passwordFocusNode = FocusNode();
-
   bool _rememberMe = false;
-  final _gap = const SizedBox(height: 8);
 
   @override
   void dispose() {
     _usernameController.dispose();
     _passwordController.dispose();
-    _usernameFocusNode.dispose();
-    _passwordFocusNode.dispose();
     super.dispose();
-  }
-
-  String? _validateUsername(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Username is required';
-    }
-    return null;
-  }
-
-  String? _validatePassword(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Please enter your password';
-    } else if (value.length < 6) {
-      return 'Password must be at least 6 characters long';
-    }
-    return null;
   }
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textTheme = theme.textTheme;
+    final colorScheme = theme.colorScheme;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-      ),
       body: Container(
         height: double.infinity,
         width: double.infinity,
-        decoration: const BoxDecoration(
-          color: Color(0xFF111827),
+        decoration: BoxDecoration(
+          color: theme.scaffoldBackgroundColor,
         ),
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Form(
-              key: _formKey,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 100),
-                  const Center(
-                    child: Text(
-                      'Hello, Welcome Back! 👋',
-                      style: TextStyle(
-                        fontSize: 30,
-                        color: Colors.white,
-                        fontFamily: 'Poppins',
-                      ),
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 200),
+
+                // Welcome Text
+                Center(
+                  child: Text(
+                    'Hello, Welcome Back! 👋',
+                    style: textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: theme.colorScheme.onSurface,
                     ),
                   ),
-                  const SizedBox(height:15),
-                  const Center(
-                    child: Text(
-                      'Please sign in to continue booking your favorite movies.',
-                      style: TextStyle(
-                        fontSize: 14,
+                ),
+                const SizedBox(height: 15),
+
+                // Subtitle
+                Center(
+                  child: Text(
+                    'Please sign in to continue booking your favorite movies.',
+                    style: textTheme.bodyMedium
+                        ?.copyWith(color: Colors.grey[600], fontSize: 12),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Username Label
+                // Text('Username',
+                //     style: textTheme.bodyLarge?.copyWith(
+                //       fontWeight: FontWeight.bold,
+                //     )),
+                // const SizedBox(height: 10),
+
+                // Username Input
+                TextFormField(
+                  controller: _usernameController,
+                  style: textTheme.bodyMedium
+                      ?.copyWith(color: colorScheme.onSurface),
+                  decoration: InputDecoration(
+                    prefixIcon: Icon(Icons.person, color: colorScheme.primary),
+                    hintText: 'Enter your username',
+                  ),
+                  validator: (value) =>
+                      value!.isEmpty ? 'Username is required' : null,
+                ),
+                const SizedBox(height: 15),
+
+                // // Password Label
+                // Text('Password',
+                //     style: textTheme.bodyLarge?.copyWith(
+                //       fontWeight: FontWeight.bold,
+                //     )),
+                // const SizedBox(height: 10),
+
+                // Password Input
+                TextFormField(
+                  controller: _passwordController,
+                  obscureText: !_isPasswordVisible,
+                  style: textTheme.bodyMedium
+                      ?.copyWith(color: colorScheme.onSurface),
+                  decoration: InputDecoration(
+                    prefixIcon:
+                        Icon(Icons.lock_outline, color: colorScheme.primary),
+                    hintText: 'Enter your password',
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        _isPasswordVisible
+                            ? Icons.visibility
+                            : Icons.visibility_off,
                         color: Colors.grey,
-                        fontFamily: 'Poppins',
                       ),
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Username',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: "Poppins",
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  TextFormField(
-                    focusNode: _usernameFocusNode,
-                    controller: _usernameController,
-                    decoration: InputDecoration(
-                      prefixIcon: Icon(Icons.person),
-                      filled: true,
-                      fillColor: Colors.white,
-                      hintText: 'Enter your username',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                    validator: _validateUsername,
-                  ),
-                  _gap,
-                  const Text(
-                    'Password',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontFamily: "Poppins",
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  _gap,
-                  TextFormField(
-                    focusNode: _passwordFocusNode,
-                    controller: _passwordController,
-                    obscureText: !_isPasswordVisible, // Toggles visibility
-                    decoration: InputDecoration(
-                      filled: true,
-                      fillColor: Colors.white,
-                      hintText: 'Enter your password',
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
-                        borderSide: BorderSide.none,
-                      ),
-                      prefixIcon: const Icon(Icons.lock_outline),
-                      suffixIcon: IconButton(
-                        icon: Icon(
-                          _isPasswordVisible ? Icons.visibility : Icons.visibility_off,
-                          color: Colors.black,
-                        ),
-                        onPressed: () {
-                          setState(() {
-                            _isPasswordVisible = !_isPasswordVisible; // Toggle visibility
-                          });
-                        },
-                      ),
-                    ),
-                    validator: _validatePassword,
-                  ),
-
-                  _gap,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Checkbox(
-                            value: _rememberMe,
-                            onChanged: (value) {
-                              setState(() {
-                                _rememberMe = value ?? false;
-                              });
-                            },
-                          ),
-                          const Text(
-                            'Remember Me',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: "Poppins",
-                            ),
-                          ),
-                        ],
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          Navigator.pushNamed(context, '/forgotpassword');
-
-                          // showDialog(
-                          //   context: context,
-                          //   builder: (context) => AlertDialog(
-                          //     title: const Text("Forgot Password"),
-                          //     content: const Text(
-                          //         "Password recovery functionality is coming soon."),
-                          //     actions: [
-                          //       TextButton(
-                          //         onPressed: () {
-                          //           Navigator.pop(context);
-                          //         },
-                          //         child: const Text("OK"),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // );
-                        },
-                        child: const Text(
-                          'Forgot Password?',
-                          style: TextStyle(
-                            color: Colors.red,
-                            fontFamily: "Poppins",
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 30),
-                  SizedBox(
-                    height: 60,
-                    width: double.infinity,
-                    child: ElevatedButton(
                       onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          context.read<LoginBloc>().add(
-                            LoginUserEvent(
-                                  context: context,
-                                  username: _usernameController.text,
-                                  password: _passwordController.text,
-                                ),
-                                // NavigateHomeScreenEvent(
-                                //   destination: const HomeView(),
-                                //   context: context,
-                                // ),
-                              );
-                          // mySnackBar(context: context, message: "Login Successful!", color: Colors.green);
-                        }
+                        setState(() {
+                          _isPasswordVisible = !_isPasswordVisible;
+                        });
                       },
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.orange[700],
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10.0),
+                    ),
+                  ),
+                  validator: (value) => value!.length < 6
+                      ? 'Password must be at least 6 characters'
+                      : null,
+                ),
+                const SizedBox(height: 15),
+
+                // Remember Me & Forgot Password
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Checkbox(
+                          value: _rememberMe,
+                          onChanged: (value) {
+                            setState(() {
+                              _rememberMe = value ?? false;
+                            });
+                          },
                         ),
-                        elevation: 5,
+                        Text('Remember Me', style: textTheme.bodyMedium),
+                      ],
+                    ),
+                    TextButton(
+                      onPressed: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ForgotPasswordView()),
                       ),
-                      child: const Text(
-                        'Login',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 20,
-                          fontFamily: "Poppins",
+                      child: Text(
+                        'Forgot Password?',
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.primary,
                           fontWeight: FontWeight.bold,
                         ),
-
                       ),
-                      
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 30),
+
+                // Login Button
+                SizedBox(
+                  height: 55,
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      if (_formKey.currentState!.validate()) {
+                        context.read<LoginBloc>().add(
+                              LoginUserEvent(
+                                context: context,
+                                username: _usernameController.text,
+                                password: _passwordController.text,
+                              ),
+                            );
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: colorScheme.primary,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      elevation: 5,
+                    ),
+                    child: Text(
+                      'Login',
+                      style: textTheme.titleMedium?.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Text(
-                        "Don't have an account? ",
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
+                ),
+                const SizedBox(height: 20),
+
+                // Sign Up Option
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Don't have an account? ",
+                      style: textTheme.bodyLarge
+                          ?.copyWith(color: colorScheme.onSurface),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        context.read<LoginBloc>().add(
+                              NavigateRegisterScreenEvent(
+                                destination: const SignUpView(),
+                                context: context,
+                              ),
+                            );
+                      },
+                      child: Text(
+                        'Sign up',
+                        style: textTheme.bodyLarge?.copyWith(
+                          color: colorScheme.secondary,
+                          fontWeight: FontWeight.bold,
+                          decoration: TextDecoration.underline,
                         ),
                       ),
-                      TextButton(
-                        key: const ValueKey('registerButton'),
-                        onPressed: () {
-                          context.read<LoginBloc>().add(
-                                NavigateRegisterScreenEvent(
-                                  destination: const SignUpView(),
-                                  context: context,
-                                ),
-                              );
-                        },
-                        child: const Text(
-                          'Sign up',
-                          style: TextStyle(
-                            decoration: TextDecoration.underline,
-                            decorationColor: Colors.blue,
-                            color: Colors.blue,
-                            fontSize: 18,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
         ),
@@ -292,25 +235,3 @@ class _LoginViewState extends State<LoginView> {
     );
   }
 }
-
-
-  // void _login() {
-  //   if (_formKey.currentState!.validate()) {
-  //     // Access the text property of the controllers
-  //     if (_usernameController.text == "admin" &&
-  //         _passwordController.text == "admin123") {
-  //       Navigator.pushNamed(context, '/home');
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(
-  //           content: Text('Login successful!'),
-  //           backgroundColor: Colors.grey,
-  //         ),
-  //       );
-  //     } else {
-  //       // Optionally, you can show an error message if login fails
-  //       ScaffoldMessenger.of(context).showSnackBar(
-  //         const SnackBar(content: Text('Invalid username or password')),
-  //       );
-  //     }
-  //   }
-  // }

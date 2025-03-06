@@ -9,6 +9,9 @@ class ApiEndpoints {
   // ================= Auth Routes =========================
   static const String login = "auth/loginMobile";
   static const String register = "auth/registerMobile";
+  static const String getUserById = "customer/";
+  static const String registerUser = "customer/save";
+
   // static const String getStudentsByBatch = "auth/getStudentsByBatch/";
   // static const String getStudentsByCourse = "auth/getStudentsByCourse/";
   // static const String updateStudent = "auth/updateStudent/";
@@ -23,12 +26,18 @@ class ApiEndpoints {
   static const String getMovieDetails = "movie/:id";
 
   // // ======================== Show Routes =============================
-  static const String getAllShows = "show/";
-  // static const String getshowByid = "show/:id";
+  static const String getAllShows = "showtime/";
+  static String getshowByid = "showtime/movie/:movieId";
 
   // // ======================== Hall Routes =============================
   static const String getAllHalls = "hall/";
 
   // // ======================== Seat Routes =============================
-  static const String getAllSeats = "seat/";
+  static String getAllSeats(String hallId) {
+    return "seat/hall/$hallId"; // Returns a dynamic URL
+  }
+
+  // // ======================== Booking Routes =============================
+  static const String createBooking = "booking/";
+  static const String getBookings = "booking/";
 }

@@ -51,7 +51,7 @@ class MovieHiveModel extends Equatable {
     required this.trailer_url,
   }) : movieId = movieId ?? const Uuid().v4();
 
-  /// ✅ Convert API JSON to Hive Model
+  /// Convert API JSON to Hive Model
   factory MovieHiveModel.fromJson(Map<String, dynamic> json) {
     return MovieHiveModel(
       movieId: json['_id'] ?? '',
@@ -70,7 +70,7 @@ class MovieHiveModel extends Equatable {
     );
   }
 
-  /// ✅ Convert Hive Model to API JSON
+  /// Convert Hive Model to API JSON
   Map<String, dynamic> toJson() {
     return {
       '_id': movieId,
@@ -89,7 +89,7 @@ class MovieHiveModel extends Equatable {
     };
   }
 
-  /// ✅ Convert Hive Model to Domain Entity
+  /// Convert Hive Model to Domain Entity
   MovieEntity toEntity() {
     return MovieEntity(
       movieId: movieId,
@@ -108,7 +108,7 @@ class MovieHiveModel extends Equatable {
     );
   }
 
-  /// ✅ Convert Domain Entity to Hive Model
+  /// Convert Domain Entity to Hive Model
   static MovieHiveModel fromEntity(MovieEntity entity) {
     return MovieHiveModel(
       movieId: entity.movieId,
@@ -127,12 +127,12 @@ class MovieHiveModel extends Equatable {
     );
   }
 
-  /// ✅ Convert List of Hive Models to List of Entities
+  ///  Convert List of Hive Models to List of Entities
   static List<MovieEntity> toEntityList(List<MovieHiveModel> entityList) {
     return entityList.map((data) => data.toEntity()).toList();
   }
 
-  /// ✅ Convert List of Entities to List of Hive Models
+  ///  Convert List of Entities to List of Hive Models
   static List<MovieHiveModel> fromEntityList(List<MovieEntity> entityList) {
     return entityList.map((entity) => fromEntity(entity)).toList();
   }
