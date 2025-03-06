@@ -1,0 +1,2 @@
+C:/Users/manis/mobile_moviebooking/android/app/.cxx/Debug/1a70x1x5/armeabi-v7a/CMakeFiles/edit_cache.dir
+C:/Users/manis/mobile_moviebooking/android/app/.cxx/Debug/1a70x1x5/armeabi-v7a/CMakeFiles/rebuild_cache.dir

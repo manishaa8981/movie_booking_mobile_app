@@ -19,9 +19,10 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
         super(MovieState.initial()) {
     on<LoadMovies>(_onLoadMovies);
     on<LoadMovieDetails>(_onLoadMovieDetails);
+    on<SearchMovies>(_onSearchMovies);
   }
 
-  Future<void> _onLoadMovies(LoadMovies event, Emitter<MovieState> emit) async {
+  void _onLoadMovies(LoadMovies event, Emitter<MovieState> emit) async {
     emit(state.copyWith(isLoading: true));
 
     final result = await _getAllMoviesUseCase.call();
@@ -29,11 +30,15 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
     result.fold(
       (failure) =>
           emit(state.copyWith(isLoading: false, error: failure.message)),
-      (movies) => emit(state.copyWith(isLoading: false, error: null)),
+      (movies) => emit(state.copyWith(
+        isLoading: false,
+        error: null,
+        movies: movies,
+      )),
     );
   }
 
-  Future<void> _onLoadMovieDetails(
+  void _onLoadMovieDetails(
       LoadMovieDetails event, Emitter<MovieState> emit) async {
     emit(state.copyWith(isLoading: true));
 
@@ -46,46 +51,21 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
       (movie) => emit(state.copyWith(
         isLoading: false,
         error: null,
+        selectedMovie: movie,
       )),
     );
   }
+
+  void _onSearchMovies(SearchMovies event, Emitter<MovieState> emit) {
+    if (event.query.isEmpty) {
+      emit(state.copyWith(filteredMovies: state.movies));
+    } else {
+      final filteredMovies = state.movies
+          .where((movie) => movie.movie_name
+              .toLowerCase()
+              .contains(event.query.toLowerCase()))
+          .toList();
+      emit(state.copyWith(filteredMovies: filteredMovies));
+    }
+  }
 }
-
-
-//view  ko lagi pxi herna lai 
-// class MovieScreen extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(title: Text('Movies')),
-//       body: BlocProvider(
-//         create: (_) => MovieBloc(
-//           getAllMoviesUseCase: GetAllMoviesUseCase(repository: movieRepository),
-//           getMovieDetailsUseCase: GetMovieDetailsUseCase(repository: movieRepository),
-//         ),
-//         child: BlocBuilder<MovieBloc, MovieState>(
-//           builder: (context, state) {
-//             if (state.isLoading) {
-//               return Center(child: CircularProgressIndicator());
-//             } else if (state.error != null) {
-//               return Center(child: Text('Error: ${state.error}'));
-//             } else {
-//               return ListView.builder(
-//                 itemCount: state.movies.length,
-//                 itemBuilder: (context, index) {
-//                   final movie = state.movies[index];
-//                   return ListTile(
-//                     title: Text(movie.movie_name),
-//                     onTap: () {
-//                       context.read<MovieBloc>().add(LoadMovieDetails(movieId: movie.movieId));
-//                     },
-//                   );
-//                 },
-//               );
-//             }
-//           },
-//         ),
-//       ),
-//     );
-//   }
-// }

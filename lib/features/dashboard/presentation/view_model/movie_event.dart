@@ -17,3 +17,21 @@ class LoadMovieDetails extends MovieEvent {
   @override
   List<Object?> get props => [movieId];
 }
+
+class SelectMovie extends MovieEvent {
+  final MovieEntity movie;
+
+  const SelectMovie({required this.movie});
+
+  @override
+  List<Object?> get props => [movie];
+}
+
+class SearchMovies extends MovieEvent {
+  final String query;
+
+  const SearchMovies(this.query);
+
+  @override
+  List<Object> get props => [query];
+}

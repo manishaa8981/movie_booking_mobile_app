@@ -48,4 +48,16 @@ class AuthLocalDataSource implements IAuthDataSource {
   Future<String> uploadProfilePicture(File file) {
     throw UnimplementedError();
   }
+  
+  @override
+  Future<AuthEntity> getUserById(String id) {
+    // TODO: implement getUserById
+    throw UnimplementedError();
+  }
+  
+  @override
+  Future<void> updateUser(String id, String token, Map<String, dynamic> userData) {
+    // TODO: implement updateUser
+    throw UnimplementedError();
+  }
 }
