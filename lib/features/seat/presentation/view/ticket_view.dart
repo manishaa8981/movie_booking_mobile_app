@@ -92,12 +92,6 @@ class TicketView extends StatelessWidget {
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    Text(
-                                      "Show ID: $showId",
-                                      style: textTheme.bodySmall?.copyWith(
-                                        color: theme.hintColor,
-                                      ),
-                                    ),
                                   ],
                                 ),
                               ),

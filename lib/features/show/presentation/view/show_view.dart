@@ -66,11 +66,11 @@ class _ShowViewState extends State<ShowView> {
                     color: Colors.orange, size: 24),
                 const SizedBox(width: 10),
                 Text(
-                  widget.movie_name ?? "Movie Title",
+                  widget.movie_name ?? "Bhool Bhuliya",
                   style: const TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                  ),
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
                 ),
               ],
             ),
@@ -82,7 +82,7 @@ class _ShowViewState extends State<ShowView> {
                 Text(
                   DateFormat('EEEE, d MMMM yyyy')
                       .format(DateTime.parse(show.date)),
-                  style: const TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16, color: Colors.black),
                 ),
               ],
             ),
@@ -93,7 +93,7 @@ class _ShowViewState extends State<ShowView> {
                 const SizedBox(width: 10),
                 Text(
                   "${show.start_time} - ${show.end_time}",
-                  style: const TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16, color: Colors.black),
                 ),
               ],
             ),
@@ -104,7 +104,7 @@ class _ShowViewState extends State<ShowView> {
                 const SizedBox(width: 10),
                 Text(
                   show.hall.hall_name,
-                  style: const TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16, color: Colors.black),
                 ),
               ],
             ),
@@ -114,9 +114,11 @@ class _ShowViewState extends State<ShowView> {
                 const Icon(Icons.monetization_on, color: Colors.grey, size: 18),
                 const SizedBox(width: 10),
                 Text(
-                  "Rs.${show.hall.price}",
+                  "Rs. 350",
                   style: const TextStyle(
-                      fontSize: 16, fontWeight: FontWeight.bold),
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.black),
                 ),
               ],
             ),
@@ -154,7 +156,7 @@ class _ShowViewState extends State<ShowView> {
     // Ensure Hall ID and other details are not null
     final hallId = selectedShow!.hall.hallId ?? "";
     final hallName = selectedShow!.hall.hall_name ?? "Unknown Hall";
-    final price = selectedShow!.hall.price ?? 0;
+    final price = 350;
     final showId = selectedShow!.showId ?? "";
     final movieName = selectedShow!.movie.movie_name ?? "Unknown Movie";
 
@@ -351,7 +353,7 @@ class _ShowViewState extends State<ShowView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.movie_name ?? "Movie Title",
+                  widget.movie_name ?? "Bhool Bhuliya",
                   style: const TextStyle(
                     fontSize: 22,
                     fontWeight: FontWeight.bold,
@@ -362,7 +364,7 @@ class _ShowViewState extends State<ShowView> {
                   children: [
                     _buildTag("2h 35m", Icons.access_time_filled),
                     const SizedBox(width: 8),
-                    _buildTag("U/A", Icons.family_restroom),
+                    _buildTag("p", Icons.family_restroom),
                   ],
                 ),
                 const SizedBox(height: 12),
@@ -647,7 +649,8 @@ class _ShowViewState extends State<ShowView> {
                         ),
                         const SizedBox(width: 8),
                         Text(
-                          "Rs.${show.hall.price}",
+                          // "Rs.${show.hall.price}",
+                          "Rs. 350",
                           style: TextStyle(
                             fontWeight: FontWeight.bold,
                             color: Colors.grey.shade700,

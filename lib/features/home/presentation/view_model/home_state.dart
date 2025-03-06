@@ -29,7 +29,7 @@ class HomeState extends Equatable {
         ),
         BlocProvider(
           create: (context) => getIt<BookingBloc>(),
-          child: BookingsView(),
+          child: BookingView(),
         ),
         BlocProvider(
           create: (context) => getIt<ProfileBloc>(),

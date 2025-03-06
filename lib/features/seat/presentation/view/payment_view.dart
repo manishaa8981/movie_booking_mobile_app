@@ -148,7 +148,7 @@ class _PaymentViewState extends State<PaymentView> {
           _buildDetailRow("⏰ Time", widget.time),
           _buildDetailRow("💺 Seats", widget.selectedSeats.join(", ")),
           const Divider(color: Colors.grey),
-          _buildDetailRow("💰 Total", "₹${widget.totalPrice}",
+          _buildDetailRow("💰 Total", "Rs. ${widget.totalPrice}",
               isBold: true, fontSize: 18),
         ],
       ),
@@ -250,7 +250,7 @@ class _PaymentViewState extends State<PaymentView> {
             const Icon(Icons.lock, size: 20),
             const SizedBox(width: 8),
             Text(
-              "Pay ₹${widget.totalPrice}",
+              "Pay Rs. ${widget.totalPrice}",
               style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ],

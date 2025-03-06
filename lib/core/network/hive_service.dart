@@ -89,4 +89,24 @@ class HiveService {
   }
 
   getMovieDetails(String movieId) {}
+
+  // New method to save multiple movies
+  Future<void> saveMovies(List<MovieHiveModel> movies) async {
+    var box = await Hive.openBox<MovieHiveModel>(HiveTableConstant.movieBox);
+
+    // Save each movie with its movieId as the key
+    for (var movie in movies) {
+      await box.put(movie.movieId, movie);
+    }
+
+    await box.close();
+  }
+
+  // Method to get a specific movie by ID
+  Future<MovieHiveModel?> getMovieById(String movieId) async {
+    var box = await Hive.openBox<MovieHiveModel>(HiveTableConstant.movieBox);
+    var movie = box.get(movieId);
+    await box.close();
+    return movie;
+  }
 }

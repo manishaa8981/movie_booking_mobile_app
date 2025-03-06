@@ -27,8 +27,6 @@ class SeatLayoutPage extends StatefulWidget {
 
 class _SeatLayoutPageState extends State<SeatLayoutPage> {
   final Set<String> selectedSeats = {}; // Store seat names instead of IDs
-  static const Color primaryColor = Colors.orange;
-  static const Color backgroundColor = Color(0xFFF5F5F5);
 
   @override
   void initState() {
@@ -38,41 +36,46 @@ class _SeatLayoutPageState extends State<SeatLayoutPage> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context); // Theme Data
+    final isDarkMode = theme.brightness == Brightness.dark;
+
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: theme.scaffoldBackgroundColor,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: Colors.orange,
+        backgroundColor: theme.colorScheme.primary,
         title: Text(
           "Select Seats - ${widget.hallName}",
-          style: const TextStyle(
-            color: Colors.black87,
-            fontWeight: FontWeight.w600,
-          ),
+          style: theme.textTheme.titleLarge?.copyWith(color: Colors.white),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black87),
+          icon: const Icon(Icons.arrow_back_ios, color: Colors.white),
           onPressed: () => Navigator.pop(context),
         ),
       ),
       body: BlocBuilder<SeatBloc, SeatState>(
         builder: (context, state) {
           if (state.isLoading) {
-            return const Center(
-                child: CircularProgressIndicator(color: primaryColor));
+            return Center(
+              child:
+                  CircularProgressIndicator(color: theme.colorScheme.primary),
+            );
           }
 
           if (state.error != null) {
             return Center(
-                child: Text("Error: ${state.error}",
-                    style: const TextStyle(color: Colors.red, fontSize: 16)));
+              child: Text("Error: ${state.error}",
+                  style:
+                      theme.textTheme.bodyLarge?.copyWith(color: Colors.red)),
+            );
           }
 
           final seats = state.seats;
           if (seats.isEmpty) {
-            return const Center(
-                child: Text("No seats available",
-                    style: TextStyle(fontSize: 18, color: Colors.black54)));
+            return Center(
+              child:
+                  Text("No seats available", style: theme.textTheme.bodyLarge),
+            );
           }
 
           final maxRow = seats.fold<int>(
@@ -83,12 +86,12 @@ class _SeatLayoutPageState extends State<SeatLayoutPage> {
           return Column(
             children: [
               const SizedBox(height: 24),
-              _buildScreenIndicator(),
+              _buildScreenIndicator(theme),
               const SizedBox(height: 40),
-              _buildSeatGrid(seats, maxRow, maxColumn),
+              _buildSeatGrid(seats, maxRow, maxColumn, theme, isDarkMode),
               const SizedBox(height: 32),
-              _buildLegend(),
-              _buildBottomBar(),
+              _buildLegend(theme),
+              _buildBottomBar(theme),
             ],
           );
         },
@@ -96,7 +99,7 @@ class _SeatLayoutPageState extends State<SeatLayoutPage> {
     );
   }
 
-  Widget _buildScreenIndicator() {
+  Widget _buildScreenIndicator(ThemeData theme) {
     return Container(
       width: double.infinity,
       margin: const EdgeInsets.symmetric(horizontal: 40),
@@ -111,18 +114,17 @@ class _SeatLayoutPageState extends State<SeatLayoutPage> {
               offset: const Offset(0, 2))
         ],
       ),
-      child: const Center(
-        child: Text("SCREEN",
-            style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 4,
-                color: Colors.white)),
+      child: Center(
+        child: Text(
+          "SCREEN",
+          style: theme.textTheme.titleMedium?.copyWith(color: Colors.white),
+        ),
       ),
     );
   }
 
-  Widget _buildSeatGrid(List<SeatEntity> seats, int rows, int columns) {
+  Widget _buildSeatGrid(List<SeatEntity> seats, int rows, int columns,
+      ThemeData theme, bool isDarkMode) {
     return Expanded(
       child: SingleChildScrollView(
         child: Padding(
@@ -150,7 +152,7 @@ class _SeatLayoutPageState extends State<SeatLayoutPage> {
                 return const SizedBox();
               }
 
-              return _buildSeatWidget(seat);
+              return _buildSeatWidget(seat, theme, isDarkMode);
             },
           ),
         ),
@@ -158,16 +160,17 @@ class _SeatLayoutPageState extends State<SeatLayoutPage> {
     );
   }
 
-  Widget _buildSeatWidget(SeatEntity seat) {
-    bool isSelected =
-        selectedSeats.contains(seat.seatName); // Compare seat names
+  Widget _buildSeatWidget(SeatEntity seat, ThemeData theme, bool isDarkMode) {
+    bool isSelected = selectedSeats.contains(seat.seatName);
     bool isBooked = seat.seatStatus ?? false;
 
     Color seatColor = isBooked
         ? Colors.red
         : isSelected
-            ? primaryColor
-            : Colors.white;
+            ? theme.colorScheme.primary
+            : isDarkMode
+                ? Colors.grey[800]!
+                : Colors.grey.shade400;
 
     return GestureDetector(
       onTap: () {
@@ -176,95 +179,56 @@ class _SeatLayoutPageState extends State<SeatLayoutPage> {
             if (isSelected) {
               selectedSeats.remove(seat.seatName);
             } else {
-              selectedSeats.add(seat.seatName!); // Store seat names
+              selectedSeats.add(seat.seatName!);
             }
           });
         }
       },
-      child: Container(
-        decoration: BoxDecoration(
-          color: seatColor,
-          borderRadius: BorderRadius.circular(6),
-          border: Border.all(color: Colors.black),
-        ),
-        child: Center(
-          child: Text(
-            seat.seatName ?? '',
-            style: TextStyle(
-                fontSize: 12, color: isBooked ? Colors.white : Colors.black),
-          ),
-        ),
+      child: Icon(
+        Icons.chair, // Sofa Icon
+        size: 32,
+        color: seatColor,
       ),
     );
   }
 
-  Widget _buildLegend() {
+  Widget _buildLegend(ThemeData theme) {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 24),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: theme.cardColor,
         borderRadius: BorderRadius.circular(12),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          _buildLegendItem("Available", Colors.white),
-          _buildLegendItem("Selected", primaryColor),
-          _buildLegendItem("Booked", Colors.red),
+          _buildLegendItem("Available", Colors.grey.shade400, theme),
+          _buildLegendItem("Selected", theme.colorScheme.primary, theme),
+          _buildLegendItem("Booked", Colors.red, theme),
         ],
       ),
     );
   }
 
-  Widget _buildLegendItem(String label, Color color) {
+  Widget _buildLegendItem(String label, Color color, ThemeData theme) {
     return Row(
       children: [
-        Container(
-          width: 24,
-          height: 24,
-          decoration: BoxDecoration(
-            color: color,
-            borderRadius: BorderRadius.circular(6),
-            border: Border.all(
-              color: Colors.grey.shade300,
-              width: 1.5,
-            ),
-          ),
-        ),
+        Icon(Icons.chair, color: color, size: 24),
         const SizedBox(width: 8),
-        Text(
-          label,
-          style: const TextStyle(
-            fontSize: 14,
-            color: Colors.black87,
-          ),
-        ),
+        Text(label, style: theme.textTheme.bodyMedium),
       ],
     );
   }
 
-  Widget _buildBottomBar() {
+  Widget _buildBottomBar(ThemeData theme) {
     final seatCount = selectedSeats.length;
     final totalPrice = seatCount * widget.price;
 
     return Container(
       padding: const EdgeInsets.all(24),
       decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, -5))
-        ],
+        color: theme.scaffoldBackgroundColor,
       ),
       child: SafeArea(
         child: Row(
@@ -274,26 +238,24 @@ class _SeatLayoutPageState extends State<SeatLayoutPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("$seatCount Seats Selected",
-                      style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.black87)),
+                      style: theme.textTheme.bodyLarge),
                   if (seatCount > 0) ...[
                     const SizedBox(height: 4),
-                    Text("Total: Rs.${totalPrice.toStringAsFixed(2)}",
-                        style: TextStyle(
-                            fontSize: 14,
-                            color: primaryColor,
-                            fontWeight: FontWeight.w500)),
+                    Text(
+                      "Total: Rs.${totalPrice.toStringAsFixed(2)}",
+                      style: theme.textTheme.bodyMedium
+                          ?.copyWith(color: theme.colorScheme.primary),
+                    ),
                   ],
                 ],
               ),
             ),
             ElevatedButton(
               onPressed: selectedSeats.isNotEmpty ? _confirmSelection : null,
-              style: ElevatedButton.styleFrom(backgroundColor: primaryColor),
-              child: const Text("Confirm Selection",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
+              style: ElevatedButton.styleFrom(
+                  backgroundColor: theme.colorScheme.primary),
+              child:
+                  Text("Confirm Selection", style: theme.textTheme.bodyLarge),
             ),
           ],
         ),
