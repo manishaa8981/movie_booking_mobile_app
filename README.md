@@ -37,7 +37,7 @@ TheaterX is a modern and feature-rich Flutter mobile application designed for se
 
 ## ⚙️ Installation & Setup
 # 1️⃣ Clone the Repository
-git clone https://github.com/manishaa8981/flutter_movie_booking.git  
+git clone https://github.com/manishaa8981/movie_booking_mobile_app.git
 cd flutter_movie_booking
 
 # 2️⃣ Setup & Run the Flutter App
